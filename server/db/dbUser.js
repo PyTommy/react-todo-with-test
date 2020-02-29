@@ -30,6 +30,41 @@ const insertUser = (username, email, password, id = null) => {
     });
 };
 
+const getUserById = (userId) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                SELECT id, username, email, password FROM users
+                WHERE id = ?
+            `,
+            [userId],
+            (err, result, fields) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(result);
+            }
+        );
+    });
+};
+
+const getUserByEmail = () => {
+
+};
+
+
+const updateUser = () => {
+
+}
+
+const deleteUser = () => {
+
+};
+
+
+
 module.exports = {
-    insertUser
+    insertUser,
+    getUserById
 };

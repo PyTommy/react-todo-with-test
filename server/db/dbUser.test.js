@@ -41,3 +41,26 @@ describe('insertUser', () => {
         }
     });
 });
+
+describe('getUserById', () => {
+    beforeAll(setup);
+
+    test('get user successfully', async () => {
+        try {
+            const result = await dbUser.getUserById(user1.id);
+            expect(result[0]).toEqual(user1);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    });
+
+    // 
+    test('Not found with ', async () => {
+        try {
+            const result = await dbUser.getUserById(user3.id);
+            expect(result.length).toBe(0);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    })
+});
