@@ -1,7 +1,11 @@
 const express = require('express');
 const path = require('path');
 
+const dbUser = require('./db/dbUser');
+
 const app = express();
+
+dbUser.create('tommy', 'email', 'password');
 
 app.get('/api/', (req, res) => {
     res.send('From server!!');
