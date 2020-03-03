@@ -1,6 +1,6 @@
 const pool = require('./pool');
 const { deleteUser } = require('./user');
-const { insertTask } = require('./task');
+const { insertTask, updateTask, getTaskById } = require('./task');
 const {
     user1, user2, user3,
     task1, task2, task3, task4, task5, task6, task7, task8, task9, task10
@@ -32,5 +32,59 @@ describe('insertTask', () => {
         const id2 = await insertTask(task6);
         expect(id2).toBeGreaterThan(id1);
     });
+});
 
+describe('getTaskById', () => {
+    beforeAll(setupTasks);
+
+    test('get task successfully', async () => {
+        try {
+            const result = await getTaskById(task1.id);
+            expect(result).toEqual(task1);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    });
+
+    test('get with none existing id returns undefined', async () => {
+        try {
+            await getTaskById(task5.id);
+            throw undefined;
+        } catch (err) {
+            expect(err.message).toBe('The task not found!!');
+        }
+    })
+});
+
+describe('updateTask', () => {
+    beforeEach(setupTasks);
+
+    const defaultUpdatedTask = {
+        title: 'updated',
+        date: new Date(2020, 0, 1),
+        completed: true,
+        userId: user1.id,
+    };
+
+    test('update task successfully', async () => {
+        try {
+            const updatedTask = { ...defaultUpdatedTask, id: task1.id };
+            await updateTask(updatedTask);
+            const fetchedTask = await getTaskById(updatedTask.id);
+            expect(fetchedTask).toEqual(updatedTask);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    });
+
+    test('Throw error if user not exist', async () => {
+        try {
+            const updatedTask = { ...defaultUpdatedTask, id: task5.id };
+            await updateTask(updatedTask);
+
+            throw undefined; // Should not executed
+        } catch (err) {
+            expect(err.message).toBe("No task updated!! Check the task id.");
+        }
+    });
 });

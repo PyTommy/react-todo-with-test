@@ -42,6 +42,82 @@ const insertTask = (taskObj) => {
     });
 };
 
+const getTaskById = (taskId) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                SELECT 
+                    id, 
+                    title,  
+                    date,
+                    completed,
+                    userId
+                FROM tasks
+                WHERE id = ?
+            `,
+            [taskId],
+            (err, result, fields) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const task = result[0];
+
+                if (!task) {
+                    reject(new Error('The task not found!!'));
+                    return;
+                }
+
+                task.completed = !!task.completed;
+
+                resolve(task);
+            }
+        );
+    });
+};
+
+const updateTask = (taskObj) => {
+    const { title, date, completed, userId, id } = taskObj;
+
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                UPDATE tasks 
+                SET 
+                    title=?,
+                    date=?,
+                    completed=?,
+                    userId=? 
+                WHERE id = ?
+            `,
+            [
+                title,
+                date,
+                completed,
+                userId,
+                id
+            ],
+            (err, result, fields) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const affectedRows = result.affectedRows;
+                if (affectedRows === 0) {
+                    reject(new Error("No task updated!! Check the task id."));
+                    return;
+                }
+
+                resolve();
+            }
+        );
+    });
+};
+
 module.exports = {
     insertTask,
+    updateTask,
+    getTaskById
 };
