@@ -57,6 +57,156 @@ const userShortPassword = {
     password: 'test',
 };
 
+/**
+ * @prop {number} id - 1 
+ * @prop {string} title - 'task1' 
+ * @prop {boolean} completed - false 
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user1.id 
+ */
+const task1 = {
+    id: 1,
+    title: 'task1',
+    completed: false,
+    date: new Date(2020, 11, 24),
+    userId: user1.id
+};
+
+/**
+ * @prop {number} id - 2
+ * @prop {string} title - 'task2'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user1.id
+ */
+const task2 = {
+    id: 2,
+    title: 'task2',
+    completed: true,
+    date: new Date(2020, 11, 24),
+    userId: user1.id,
+};
+
+
+/**
+ * @prop {number} id - 3
+ * @prop {string} title - 'task3'
+ * @prop {boolean} completed - false
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user1.id
+ */
+const task3 = {
+    id: 3,
+    title: 'task3',
+    completed: false,
+    date: new Date(2020, 11, 23),
+    userId: user1.id,
+};
+
+/**
+ * @prop {number} id - 4
+ * @prop {string} title - 'task4'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user1.id
+ */
+const task4 = {
+    id: 4,
+    title: 'task4',
+    completed: true,
+    date: new Date(2020, 11, 23),
+    userId: user1.id,
+};
+
+/**
+ * @prop {number} id - 5 
+ * @prop {string} title - 'task5' 
+ * @prop {boolean} completed - false 
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user5.id 
+ */
+const task5 = {
+    id: 5,
+    title: 'task5',
+    completed: false,
+    date: new Date(2020, 11, 24),
+    userId: user1.id
+};
+/**
+ * @prop {number} id - 6 
+ * @prop {string} title - 'task6' 
+ * @prop {boolean} completed - true 
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user6.id 
+ */
+const task6 = {
+    id: 6,
+    title: 'task6',
+    completed: true,
+    date: new Date(2020, 11, 24),
+    userId: user1.id
+};
+
+
+/**
+ * @prop {number} id - 7
+ * @prop {string} title - 'task7'
+ * @prop {boolean} completed - false
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user2.id
+ */
+const task7 = {
+    id: 7,
+    title: 'task7',
+    completed: false,
+    date: new Date(2020, 11, 24),
+    userId: user2.id,
+};
+
+/**
+ * @prop {number} id - 8
+ * @prop {string} title - 'task8'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user2.id
+ */
+const task8 = {
+    id: 8,
+    title: 'task8',
+    completed: true,
+    date: new Date(2020, 11, 24),
+    userId: user2.id,
+};
+
+/**
+ * @prop {number} id - 9
+ * @prop {string} title - 'task9'
+ * @prop {boolean} completed - false
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user2.id
+ */
+const task9 = {
+    id: 9,
+    title: 'task9',
+    completed: false,
+    date: new Date(2020, 11, 23),
+    userId: user2.id,
+};
+
+/**
+ * @prop {number} id - 10
+ * @prop {string} title - 'task10'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user1.id
+ */
+const task10 = {
+    id: 10,
+    title: 'task10',
+    completed: true,
+    date: new Date(2020, 11, 23),
+    userId: user2.id,
+};
 
 module.exports = {
     user1,
@@ -67,5 +217,16 @@ module.exports = {
     userLongUsername,
     userShortPassword,
     userWrongEmail,
-    userWrongType
+    userWrongType,
+
+    task1,
+    task2,
+    task3,
+    task4,
+    task5,
+    task6,
+    task7,
+    task8,
+    task9,
+    task10,
 };
