@@ -57,6 +57,126 @@ const userShortPassword = {
     password: 'test',
 };
 
+/**
+ * @param {number} id - 1 
+ * @param {string} title - 'task1' 
+ * @param {boolean} completed - false 
+ * @param {date} date -  new Date(2020, 11, 24)
+ * @param {number} userId - user1.id 
+ */
+const task1 = {
+    id: 1,
+    title: 'task1',
+    completed: false,
+    date: new Date(2020, 11, 24),
+    userId: user1.id
+};
+
+/**
+ * @param {number} id - 2
+ * @param {string} title - 'task2'
+ * @param {boolean} completed - true
+ * @param {date} date -  new Date(2020, 11, 24)
+ * @param {number} userId - user1.id
+ */
+const task2 = {
+    id: 2,
+    title: 'task2',
+    completed: true,
+    date: new Date(2020, 11, 24),
+    userId: user1.id,
+};
+
+
+/**
+ * @param {number} id - 3
+ * @param {string} title - 'task3'
+ * @param {boolean} completed - false
+ * @param {date} date -  new Date(2020, 11, 23)
+ * @param {number} userId - user1.id
+ */
+const task3 = {
+    id: 3,
+    title: 'task3',
+    completed: false,
+    date: new Date(2020, 11, 23),
+    userId: user1.id,
+};
+
+/**
+ * @param {number} id - 4
+ * @param {string} title - 'task4'
+ * @param {boolean} completed - true
+ * @param {date} date -  new Date(2020, 11, 23)
+ * @param {number} userId - user1.id
+ */
+const task4 = {
+    id: 4,
+    title: 'task4',
+    completed: true,
+    date: new Date(2020, 11, 23),
+    userId: user1.id,
+};
+
+/**
+ * @param {number} id - 5
+ * @param {string} title - 'task5'
+ * @param {boolean} completed - false
+ * @param {date} date -  new Date(2020, 11, 24)
+ * @param {number} userId - user2.id
+ */
+const task5 = {
+    id: 5,
+    title: 'task5',
+    completed: false,
+    date: new Date(2020, 11, 24),
+    userId: user2.id,
+};
+
+/**
+ * @param {number} id - 6
+ * @param {string} title - 'task6'
+ * @param {boolean} completed - true
+ * @param {date} date -  new Date(2020, 11, 24)
+ * @param {number} userId - user2.id
+ */
+const task6 = {
+    id: 6,
+    title: 'task6',
+    completed: true,
+    date: new Date(2020, 11, 24),
+    userId: user2.id,
+};
+
+/**
+ * @param {number} id - 7
+ * @param {string} title - 'task7'
+ * @param {boolean} completed - false
+ * @param {date} date -  new Date(2020, 11, 23)
+ * @param {number} userId - user2.id
+ */
+const task7 = {
+    id: 7,
+    title: 'task7',
+    completed: false,
+    date: new Date(2020, 11, 23),
+    userId: user2.id,
+};
+
+/**
+ * @param {number} id - 8
+ * @param {string} title - 'task8'
+ * @param {boolean} completed - true
+ * @param {date} date -  new Date(2020, 11, 23)
+ * @param {number} userId - user1.id
+ */
+const task8 = {
+    id: 8,
+    title: 'task8',
+    completed: true,
+    date: new Date(2020, 11, 23),
+    userId: user2.id,
+};
 
 module.exports = {
     user1,
@@ -67,5 +187,14 @@ module.exports = {
     userLongUsername,
     userShortPassword,
     userWrongEmail,
-    userWrongType
+    userWrongType,
+
+    task1,
+    task2,
+    task3,
+    task4,
+    task5,
+    task6,
+    task7,
+    task8,
 };
