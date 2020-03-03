@@ -1,6 +1,6 @@
 const pool = require('./pool');
 const { deleteUser } = require('./user');
-const { insertTask, updateTask, getTaskById } = require('./task');
+const { insertTask, updateTask, getTaskById, getTasksByDateAndUserId } = require('./task');
 const {
     user1, user2, user3,
     task1, task2, task3, task4, task5, task6, task7, task8, task9, task10
@@ -38,21 +38,31 @@ describe('getTaskById', () => {
     beforeAll(setupTasks);
 
     test('get task successfully', async () => {
-        try {
-            const result = await getTaskById(task1.id);
-            expect(result).toEqual(task1);
-        } catch (err) {
-            expect(err).toBeUndefined(); // Should Not executed
-        }
+        const result = await getTaskById(task1.id);
+        expect(result).toEqual(task1);
     });
 
-    test('get with none existing id returns undefined', async () => {
+    test('Error thrown with not existing id', async () => {
         try {
             await getTaskById(task5.id);
             throw undefined;
         } catch (err) {
             expect(err.message).toBe('The task not found!!');
         }
+    })
+});
+
+describe('getTasksByDateAndUserId', () => {
+    beforeAll(setupTasks);
+
+    test('get task successfully', async () => {
+        const tasks = await getTasksByDateAndUserId(task1.date, task1.userId);
+        expect(tasks.length).toBe(2);
+    });
+
+    test('Returns empty array when there are no tasks', async () => {
+        const tasks = await getTasksByDateAndUserId(new Date(1999, 0, 1), task1.userId);
+        expect(tasks).toEqual([]);
     })
 });
 

@@ -77,6 +77,45 @@ const getTaskById = (taskId) => {
     });
 };
 
+/**
+ * Get tasks by date (and userId)
+ * @param {date} date 
+ * @param {number} userId 
+ */
+const getTasksByDateAndUserId = (date, userId) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                SELECT 
+                    id, 
+                    title,  
+                    date,
+                    completed,
+                    userId
+                FROM tasks
+                WHERE 
+                    date = ?
+                    AND userId = ?
+            `,
+            [date, userId],
+            (err, result, fields) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const tasks = result;
+
+                tasks.forEach(task => {
+                    task.completed = !!task.completed;
+                });
+
+                resolve(tasks);
+            }
+        );
+    });
+};
+
 const updateTask = (taskObj) => {
     const { title, date, completed, userId, id } = taskObj;
 
@@ -119,5 +158,6 @@ const updateTask = (taskObj) => {
 module.exports = {
     insertTask,
     updateTask,
-    getTaskById
+    getTaskById,
+    getTasksByDateAndUserId
 };
