@@ -116,6 +116,42 @@ const getTasksByDateAndUserId = (date, userId) => {
     });
 };
 
+/**
+ * Returns array of tasks sorted newer to older.
+ * @param {number} offset 
+ * @param {number} number 
+ * @param {number} userId 
+ * @returns {array} - tasks 
+ */
+const getTasksByLimitAndUserId = (offset, number, userId) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                SELECT * FROM tasks
+                WHERE userId = ?
+                ORDER BY date DESC
+                LIMIT ?, ?
+                
+            `,
+            [userId, offset, number],
+            (err, result, fields) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const tasks = result;
+
+                tasks.forEach(task => {
+                    task.completed = !!task.completed;
+                });
+
+                resolve(tasks);
+            }
+        );
+    });
+};
+
 const updateTask = (taskObj) => {
     const { title, date, completed, userId, id } = taskObj;
 
@@ -183,5 +219,6 @@ module.exports = {
     updateTask,
     getTaskById,
     getTasksByDateAndUserId,
+    getTasksByLimitAndUserId,
     deleteTask,
 };

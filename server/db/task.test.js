@@ -1,6 +1,5 @@
-const pool = require('./pool');
 const { deleteUser } = require('./user');
-const { insertTask, updateTask, getTaskById, getTasksByDateAndUserId, deleteTask } = require('./task');
+const { insertTask, updateTask, getTaskById, getTasksByDateAndUserId, getTasksByLimitAndUserId, deleteTask } = require('./task');
 const {
     user1, user2, user3,
     task1, task2, task3, task4, task5, task6, task7, task8, task9, task10
@@ -66,6 +65,39 @@ describe('getTasksByDateAndUserId', () => {
     })
 });
 
+describe('getTasksByLimitAndUserId', () => {
+    const newTask1 = { ...task1 }, newTask2 = { ...task2 }, newTask3 = { ...task3 }, newTask4 = { ...task4 };
+    newTask1.date = new Date(2020, 0, 1); // older
+    newTask2.date = new Date(2020, 0, 2);
+    newTask3.date = new Date(2020, 0, 3);
+    newTask4.date = new Date(2020, 0, 4); // newer
+
+    beforeEach(async () => {
+        await deleteAllTasks();
+        await insertTasks([newTask3, newTask1, newTask2, newTask4]);
+    });
+
+    test('params, offset and number, works as expected', async () => {
+        const tasks = await getTasksByLimitAndUserId(1, 1, user1.id);
+        expect(tasks).toEqual([newTask3]);
+    });
+
+    test('Returns sorted tasks(newer to older)', async () => {
+        const tasks = await getTasksByLimitAndUserId(0, 100, user1.id);
+        expect(tasks).toEqual([
+            newTask4,
+            newTask3,
+            newTask2,
+            newTask1,
+        ]);
+    });
+
+    test('Returns empty array if not exist', async () => {
+        const tasks = await getTasksByLimitAndUserId(0, 100, user2.id);
+        expect(tasks).toEqual([]);
+    });
+});
+
 describe('updateTask', () => {
     beforeEach(setupTasks);
 
@@ -99,7 +131,6 @@ describe('updateTask', () => {
     });
 });
 
-
 describe('deleteTask', () => {
     beforeEach(setupTasks);
 
@@ -116,4 +147,14 @@ describe('deleteTask', () => {
             expect(err.message).toBe('The task to delete not found!!');
         }
     });
+});
+
+test('`deleteUser` delete tasks belong to the user, too', async () => {
+    await setupUsers();
+    await setupTasks();
+
+    await deleteUser(task1.userId);
+    const tasks = await getTasksByDateAndUserId(task1.date, task1.userId);
+
+    expect(tasks).toEqual([]);
 });
