@@ -36,7 +36,7 @@ const insertUser = (username, email, password, id = null) => {
 /**
  * Returns user object
  * @param {number} userId 
- * @returns {object|undefined} - {id, username, email, password}. Undefined if user not found.
+ * @returns {object} - {id, username, email, password}.
  */
 const getUserById = (userId) => {
     return new Promise((resolve, reject) => {
@@ -53,6 +53,12 @@ const getUserById = (userId) => {
                 }
 
                 const user = result[0];
+
+                if (!user) {
+                    reject(new Error('No user found!!'));
+                    return;
+                }
+
                 resolve(user);
             }
         );
@@ -62,7 +68,7 @@ const getUserById = (userId) => {
 /**
  * Returns user object
  * @param {email} email
- * @returns {object|undefined} - {id, username, email, password}. Undefined if user not found.
+ * @returns {object} - {id, username, email, password}.
  */
 const getUserByEmail = (email) => {
     return new Promise((resolve, reject) => {
@@ -79,6 +85,12 @@ const getUserByEmail = (email) => {
                 }
 
                 const user = result[0];
+
+                if (!user) {
+                    reject(new Error('No user found!!'));
+                    return;
+                }
+
                 resolve(user);
             }
         );
@@ -99,5 +111,6 @@ const deleteUser = () => {
 module.exports = {
     insertUser,
     getUserById,
-    getUserByEmail
+    getUserByEmail,
+    updateUser,
 };
