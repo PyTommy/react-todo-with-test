@@ -58,11 +58,11 @@ const userShortPassword = {
 };
 
 /**
- * @param {number} id - 1 
- * @param {string} title - 'task1' 
- * @param {boolean} completed - false 
- * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user1.id 
+ * @prop {number} id - 1 
+ * @prop {string} title - 'task1' 
+ * @prop {boolean} completed - false 
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user1.id 
  */
 const task1 = {
     id: 1,
@@ -73,11 +73,11 @@ const task1 = {
 };
 
 /**
- * @param {number} id - 2
- * @param {string} title - 'task2'
- * @param {boolean} completed - true
- * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user1.id
+ * @prop {number} id - 2
+ * @prop {string} title - 'task2'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user1.id
  */
 const task2 = {
     id: 2,
@@ -89,11 +89,11 @@ const task2 = {
 
 
 /**
- * @param {number} id - 3
- * @param {string} title - 'task3'
- * @param {boolean} completed - false
- * @param {date} date -  new Date(2020, 11, 23)
- * @param {number} userId - user1.id
+ * @prop {number} id - 3
+ * @prop {string} title - 'task3'
+ * @prop {boolean} completed - false
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user1.id
  */
 const task3 = {
     id: 3,
@@ -104,11 +104,11 @@ const task3 = {
 };
 
 /**
- * @param {number} id - 4
- * @param {string} title - 'task4'
- * @param {boolean} completed - true
- * @param {date} date -  new Date(2020, 11, 23)
- * @param {number} userId - user1.id
+ * @prop {number} id - 4
+ * @prop {string} title - 'task4'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user1.id
  */
 const task4 = {
     id: 4,
@@ -119,11 +119,11 @@ const task4 = {
 };
 
 /**
- * @param {number} id - 5 
- * @param {string} title - 'task5' 
- * @param {boolean} completed - false 
- * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user5.id 
+ * @prop {number} id - 5 
+ * @prop {string} title - 'task5' 
+ * @prop {boolean} completed - false 
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user5.id 
  */
 const task5 = {
     id: 5,
@@ -133,11 +133,11 @@ const task5 = {
     userId: user1.id
 };
 /**
- * @param {number} id - 6 
- * @param {string} title - 'task6' 
- * @param {boolean} completed - true 
- * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user6.id 
+ * @prop {number} id - 6 
+ * @prop {string} title - 'task6' 
+ * @prop {boolean} completed - true 
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user6.id 
  */
 const task6 = {
     id: 6,
@@ -149,11 +149,11 @@ const task6 = {
 
 
 /**
- * @param {number} id - 7
- * @param {string} title - 'task7'
- * @param {boolean} completed - false
- * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user2.id
+ * @prop {number} id - 7
+ * @prop {string} title - 'task7'
+ * @prop {boolean} completed - false
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user2.id
  */
 const task7 = {
     id: 7,
@@ -164,11 +164,11 @@ const task7 = {
 };
 
 /**
- * @param {number} id - 8
- * @param {string} title - 'task8'
- * @param {boolean} completed - true
- * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user2.id
+ * @prop {number} id - 8
+ * @prop {string} title - 'task8'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 24)
+ * @prop {number} userId - user2.id
  */
 const task8 = {
     id: 8,
@@ -179,11 +179,11 @@ const task8 = {
 };
 
 /**
- * @param {number} id - 9
- * @param {string} title - 'task9'
- * @param {boolean} completed - false
- * @param {date} date -  new Date(2020, 11, 23)
- * @param {number} userId - user2.id
+ * @prop {number} id - 9
+ * @prop {string} title - 'task9'
+ * @prop {boolean} completed - false
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user2.id
  */
 const task9 = {
     id: 9,
@@ -194,11 +194,11 @@ const task9 = {
 };
 
 /**
- * @param {number} id - 10
- * @param {string} title - 'task10'
- * @param {boolean} completed - true
- * @param {date} date -  new Date(2020, 11, 23)
- * @param {number} userId - user1.id
+ * @prop {number} id - 10
+ * @prop {string} title - 'task10'
+ * @prop {boolean} completed - true
+ * @prop {date} date -  new Date(2020, 11, 23)
+ * @prop {number} userId - user1.id
  */
 const task10 = {
     id: 10,

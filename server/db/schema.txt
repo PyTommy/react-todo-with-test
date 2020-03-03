@@ -10,8 +10,8 @@ CREATE TABLE tasks (
     title VARCHAR(50) NOT NULL,
     completed BOOLEAN NOT NULL DEFAULT false,
     date DATE NOT NULL,
-    user_id INT,
-    FOREIGN KEY (user_id) 
+    userId INT,
+    FOREIGN KEY (userId) 
         REFERENCES users(id) 
         ON DELETE CASCADE
 );

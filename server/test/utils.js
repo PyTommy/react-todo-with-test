@@ -54,7 +54,64 @@ const deleteAllUsers = () => {
     });
 };
 
+/**
+ * Create multiple tasks
+ * @param {string} users - [{title, date, completed, userId, id}]
+ */
+const insertTasks = (tasksArray) => {
+    return new Promise((resolve, reject) => {
+        const values = [];
+        tasksArray.forEach((task) => {
+            const taskArray = [
+                task.title,
+                task.date,
+                task.completed,
+                task.userId,
+                +task.id
+            ];
+            values.push(taskArray);
+        });
+
+        pool.query(
+            `
+                INSERT INTO tasks(title, date, completed, userId, id) 
+                VALUES ?
+            `,
+            [values],
+            (err, result, fields) => {
+                if (err) {
+                    throw new Error('insertTasks in testUtils.js failed: ' + err);
+                }
+                resolve();
+            }
+        );
+    });
+};
+
+
+/**
+ * Delete all users.
+ */
+const deleteAllTasks = () => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+            DELETE FROM tasks
+            `,
+            [],
+            (err, result, fields) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve();
+            }
+        );
+    });
+};
+
 module.exports = {
     insertUsers,
     deleteAllUsers,
+    insertTasks,
+    deleteAllTasks,
 };

@@ -9,23 +9,25 @@ const pool = require('./pool');
  *  title: 'task1',
  *  date: new Date(2020, 0, 1),
  *  completed: false,
- *  userId: 1
+ *  userId: 1,
+ *  id: 1 (for testing)
  * });
  * @returns {number} id - created id
  */
 const insertTask = (taskObj) => {
-    const { taskname, email, password, id = null } = taskObj;
+    const { title, date, completed, userId, id = null } = taskObj;
 
     return new Promise((resolve, reject) => {
         pool.query(
             `
-                INSERT INTO tasks (taskname, email, password ${id ? ", id" : ""}) 
-                VALUES (?, ?, ? ${id ? ", " + id : ""})
+                INSERT INTO tasks (title, date, completed, userId ${id ? ", id" : ""}) 
+                VALUES (?, ?, ?, ? ${id ? ", " + id : ""})
             `,
             [
-                taskname,
-                email,
-                password,
+                title,
+                date,
+                completed,
+                userId
             ],
             (err, result, fields) => {
                 if (err) {
