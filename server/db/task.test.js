@@ -1,6 +1,6 @@
 const pool = require('./pool');
 const { deleteUser } = require('./user');
-const { insertTask, updateTask, getTaskById, getTasksByDateAndUserId } = require('./task');
+const { insertTask, updateTask, getTaskById, getTasksByDateAndUserId, deleteTask } = require('./task');
 const {
     user1, user2, user3,
     task1, task2, task3, task4, task5, task6, task7, task8, task9, task10
@@ -95,6 +95,25 @@ describe('updateTask', () => {
             throw undefined; // Should not executed
         } catch (err) {
             expect(err.message).toBe("No task updated!! Check the task id.");
+        }
+    });
+});
+
+
+describe('deleteTask', () => {
+    beforeEach(setupTasks);
+
+    test('Delete a task without error', async () => {
+        await deleteTask(task1.id);
+    });
+
+    test('Fail to delete a task with none existing task id', async () => {
+        try {
+            await deleteTask(task5.id);
+
+            throw undefined; // Should Not executed
+        } catch (err) {
+            expect(err.message).toBe('The task to delete not found!!');
         }
     });
 });

@@ -155,9 +155,33 @@ const updateTask = (taskObj) => {
     });
 };
 
+const deleteTask = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                DELETE FROM tasks WHERE id = ?
+            `,
+            [id],
+            (err, result, fields) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                const affectedRows = result.affectedRows;
+                if (affectedRows === 0) {
+                    return reject(new Error("The task to delete not found!!"));
+                }
+
+                resolve();
+            }
+        );
+    });
+};
+
 module.exports = {
     insertTask,
     updateTask,
     getTaskById,
-    getTasksByDateAndUserId
+    getTasksByDateAndUserId,
+    deleteTask,
 };
