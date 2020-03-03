@@ -18,6 +18,12 @@ const user3 = {
     email: "test3@test.com",
     password: "test3test3",
 };
+const user4 = {
+    id: 12,
+    username: "test4",
+    email: "test4@test.com",
+    password: "test4test4",
+};
 
 
 
@@ -56,6 +62,7 @@ module.exports = {
     user1,
     user2,
     user3,
+    user4,
     userEmpty,
     userLongUsername,
     userShortPassword,

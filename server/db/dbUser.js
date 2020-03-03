@@ -6,7 +6,7 @@ const pool = require('./pool');
  * @param {string} email - CHAR(254)
  * @param {string} password - hashed password with CHAR(60)
  * @param {number} id - for testing.
- * @returns result - Example) {"affectedRows": 1, "changedRows": 0, "fieldCount": 0, "insertId": 4, "message": "", "protocol41": true, "serverStatus": 2, "warningCount": 0}
+ * @returns {number} id - created id
  */
 const insertUser = (username, email, password, id = null) => {
     return new Promise((resolve, reject) => {
@@ -24,15 +24,19 @@ const insertUser = (username, email, password, id = null) => {
                 if (err) {
                     return reject(err);
                 }
-                resolve(result);
+
+                const userId = result.insertId;
+
+                resolve(userId);
             }
         );
     });
 };
 
 /**
- * 
+ * Returns user object
  * @param {number} userId 
+ * @returns {object|undefined} - {id, username, email, password}. Undefined if user not found.
  */
 const getUserById = (userId) => {
     return new Promise((resolve, reject) => {
@@ -47,15 +51,18 @@ const getUserById = (userId) => {
                     reject(err);
                     return;
                 }
-                resolve(result);
+
+                const user = result[0];
+                resolve(user);
             }
         );
     });
 };
 
 /**
- * 
- * @param {string} email 
+ * Returns user object
+ * @param {email} email
+ * @returns {object|undefined} - {id, username, email, password}. Undefined if user not found.
  */
 const getUserByEmail = (email) => {
     return new Promise((resolve, reject) => {
@@ -70,7 +77,9 @@ const getUserByEmail = (email) => {
                     reject(err);
                     return;
                 }
-                resolve(result);
+
+                const user = result[0];
+                resolve(user);
             }
         );
     });
