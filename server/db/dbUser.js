@@ -30,6 +30,10 @@ const insertUser = (username, email, password, id = null) => {
     });
 };
 
+/**
+ * 
+ * @param {number} userId 
+ */
 const getUserById = (userId) => {
     return new Promise((resolve, reject) => {
         pool.query(
@@ -49,8 +53,27 @@ const getUserById = (userId) => {
     });
 };
 
-const getUserByEmail = () => {
-
+/**
+ * 
+ * @param {string} email 
+ */
+const getUserByEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                SELECT id, username, email, password FROM users
+                WHERE email = ?
+            `,
+            [email],
+            (err, result, fields) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(result);
+            }
+        );
+    });
 };
 
 
@@ -66,5 +89,6 @@ const deleteUser = () => {
 
 module.exports = {
     insertUser,
-    getUserById
+    getUserById,
+    getUserByEmail
 };

@@ -54,8 +54,7 @@ describe('getUserById', () => {
         }
     });
 
-    // 
-    test('Not found with ', async () => {
+    test('Not found with none existing user id', async () => {
         try {
             const result = await dbUser.getUserById(user3.id);
             expect(result.length).toBe(0);
@@ -64,3 +63,26 @@ describe('getUserById', () => {
         }
     })
 });
+
+describe('getUserByEmail', () => {
+    beforeAll(setup);
+
+    test('get user successfully', async () => {
+        try {
+            const result = await dbUser.getUserByEmail(user1.email);
+            expect(result[0]).toEqual(user1);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    });
+
+    test('Not found with none existing user id', async () => {
+        try {
+            const result = await dbUser.getUserByEmail(user3.email);
+            expect(result.length).toBe(0);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    })
+});
+
