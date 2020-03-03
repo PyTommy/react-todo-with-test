@@ -106,7 +106,7 @@ const getUserByEmail = (email) => {
 /**
  * Update user. Error thrown if no affected row.
  * @param {object} userObj 
- * @returns undefined
+ * @returns {undefined}
  */
 const updateUser = (userObj) => {
     const { username, email, password, id } = userObj;
@@ -133,7 +133,7 @@ const updateUser = (userObj) => {
                 }
 
                 const affectedRows = result.affectedRows;
-                if (affectedRows !== 1) {
+                if (affectedRows === 0) {
                     return reject(new Error("No user updated!! Check the user id."));
                 }
 
@@ -143,8 +143,33 @@ const updateUser = (userObj) => {
     });
 }
 
-const deleteUser = () => {
 
+/**
+ * Delete a user. Error thrown if no user deleted.
+ * @param {number} id
+ * @returns {undefined}
+ */
+const deleteUser = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                DELETE FROM users WHERE id = ?
+            `,
+            [id],
+            (err, result, fields) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                const affectedRows = result.affectedRows;
+                if (affectedRows === 0) {
+                    return reject(new Error("No user deleted!!"));
+                }
+
+                resolve();
+            }
+        );
+    });
 };
 
 
@@ -154,4 +179,5 @@ module.exports = {
     getUserById,
     getUserByEmail,
     updateUser,
+    deleteUser,
 };

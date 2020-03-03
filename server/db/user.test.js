@@ -1,4 +1,4 @@
-const { insertUser, getUserById, getUserByEmail, updateUser } = require('./user');
+const { insertUser, getUserById, getUserByEmail, updateUser, deleteUser } = require('./user');
 const { user1, user2, user3, user4 } = require('../test/fixtures');
 const { insertUsers, deleteAllUsers } = require('../test/utils');
 
@@ -129,6 +129,27 @@ describe('updateUser', () => {
             expect(err).not.toBeUndefined();
         }
     });
-
 });
 
+
+describe('deleteUser', () => {
+    beforeEach(setup);
+
+    test('Delete a user without error', async () => {
+        try {
+            await deleteUser(user1.id);
+        } catch (err) {
+            expect(err).toBeUndefined(); // Should Not executed
+        }
+    });
+
+    test('Fail to delete a user with none existing user id', async () => {
+        try {
+            await deleteUser(user3.id);
+
+            throw undefined; // Should Not executed
+        } catch (err) {
+            expect(err).not.toBeUndefined();
+        }
+    });
+});
