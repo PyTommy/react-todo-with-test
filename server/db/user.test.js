@@ -13,12 +13,7 @@ describe('insertUser', () => {
 
     test('Insert a user without error', async () => {
         try {
-            const result = await insertUser(
-                user3.username,
-                user3.email,
-                user3.password,
-                user3.id,
-            );
+            const result = await insertUser(user3);
 
             expect(result).toBe(user3.id);
         } catch (err) {
@@ -28,16 +23,16 @@ describe('insertUser', () => {
 
     test('Insert a user auto increment id and return it', async () => {
         try {
-            const result1 = await insertUser(
-                user3.username,
-                user3.email,
-                user3.password,
-            );
-            const result2 = await insertUser(
-                user4.username,
-                user4.email,
-                user4.password,
-            );
+            const result1 = await insertUser({
+                username: user3.username,
+                email: user3.email,
+                password: user3.password,
+            });
+            const result2 = await insertUser({
+                username: user4.username,
+                email: user4.email,
+                password: user4.password,
+            });
             expect(result2).toBeGreaterThan(result1);
         } catch (err) {
             expect(err).toBeUndefined(); // Should Not executed
@@ -46,11 +41,11 @@ describe('insertUser', () => {
 
     test('Fail to insert a user with duplicated email', async () => {
         try {
-            await insertUser(
-                user1.username,
-                user1.email,
-                user1.password,
-            );
+            await insertUser({
+                username: user1.username,
+                email: user1.email,
+                password: user1.password,
+            });
 
             throw undefined; // Should Not executed
         } catch (err) {

@@ -2,13 +2,19 @@ const pool = require('./pool');
 
 /**
  * Insert user on database
- * @param {string} username - CHAR(30) 
- * @param {string} email - CHAR(254)
- * @param {string} password - hashed password with CHAR(60)
- * @param {number} id - for testing.
+ * @param {Object} user
+ * @example 
+ * insertUser({
+ *  username: 'name',
+ *  email: 'email@email.com',
+ *  password: 'shouldbehashed',
+ *  id: 99 (id is optional)
+ * });
  * @returns {number} id - created id
  */
-const insertUser = (username, email, password, id = null) => {
+const insertUser = (userObj) => {
+    const { username, email, password, id = null } = userObj;
+
     return new Promise((resolve, reject) => {
         pool.query(
             `
