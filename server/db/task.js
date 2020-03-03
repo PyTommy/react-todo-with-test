@@ -1,14 +1,15 @@
 const pool = require('./pool');
 
+
 /**
  * Insert task on database
  * @param {Object} task
  * @example 
  * insertTask({
- *  taskname: 'name',
- *  email: 'email@email.com',
- *  password: 'shouldbehashed',
- *  id: 99 (id is optional)
+ *  title: 'task1',
+ *  date: new Date(2020, 0, 1),
+ *  completed: false,
+ *  userId: 1
  * });
  * @returns {number} id - created id
  */
@@ -37,4 +38,8 @@ const insertTask = (taskObj) => {
             }
         );
     });
+};
+
+module.exports = {
+    insertTask,
 };

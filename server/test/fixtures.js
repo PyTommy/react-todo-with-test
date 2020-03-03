@@ -119,47 +119,47 @@ const task4 = {
 };
 
 /**
- * @param {number} id - 5
- * @param {string} title - 'task5'
- * @param {boolean} completed - false
+ * @param {number} id - 5 
+ * @param {string} title - 'task5' 
+ * @param {boolean} completed - false 
  * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user2.id
+ * @param {number} userId - user5.id 
  */
 const task5 = {
     id: 5,
     title: 'task5',
     completed: false,
     date: new Date(2020, 11, 24),
-    userId: user2.id,
+    userId: user1.id
 };
-
 /**
- * @param {number} id - 6
- * @param {string} title - 'task6'
- * @param {boolean} completed - true
+ * @param {number} id - 6 
+ * @param {string} title - 'task6' 
+ * @param {boolean} completed - true 
  * @param {date} date -  new Date(2020, 11, 24)
- * @param {number} userId - user2.id
+ * @param {number} userId - user6.id 
  */
 const task6 = {
     id: 6,
     title: 'task6',
     completed: true,
     date: new Date(2020, 11, 24),
-    userId: user2.id,
+    userId: user1.id
 };
+
 
 /**
  * @param {number} id - 7
  * @param {string} title - 'task7'
  * @param {boolean} completed - false
- * @param {date} date -  new Date(2020, 11, 23)
+ * @param {date} date -  new Date(2020, 11, 24)
  * @param {number} userId - user2.id
  */
 const task7 = {
     id: 7,
     title: 'task7',
     completed: false,
-    date: new Date(2020, 11, 23),
+    date: new Date(2020, 11, 24),
     userId: user2.id,
 };
 
@@ -167,12 +167,42 @@ const task7 = {
  * @param {number} id - 8
  * @param {string} title - 'task8'
  * @param {boolean} completed - true
- * @param {date} date -  new Date(2020, 11, 23)
- * @param {number} userId - user1.id
+ * @param {date} date -  new Date(2020, 11, 24)
+ * @param {number} userId - user2.id
  */
 const task8 = {
     id: 8,
     title: 'task8',
+    completed: true,
+    date: new Date(2020, 11, 24),
+    userId: user2.id,
+};
+
+/**
+ * @param {number} id - 9
+ * @param {string} title - 'task9'
+ * @param {boolean} completed - false
+ * @param {date} date -  new Date(2020, 11, 23)
+ * @param {number} userId - user2.id
+ */
+const task9 = {
+    id: 9,
+    title: 'task9',
+    completed: false,
+    date: new Date(2020, 11, 23),
+    userId: user2.id,
+};
+
+/**
+ * @param {number} id - 10
+ * @param {string} title - 'task10'
+ * @param {boolean} completed - true
+ * @param {date} date -  new Date(2020, 11, 23)
+ * @param {number} userId - user1.id
+ */
+const task10 = {
+    id: 10,
+    title: 'task10',
     completed: true,
     date: new Date(2020, 11, 23),
     userId: user2.id,
@@ -197,4 +227,6 @@ module.exports = {
     task6,
     task7,
     task8,
+    task9,
+    task10,
 };
