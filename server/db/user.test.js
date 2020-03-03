@@ -1,4 +1,4 @@
-const dbUser = require('./dbUser');
+const dbUser = require('./user');
 const { user1, user2, user3, user4 } = require('../test/fixtures');
 const { insertUsers, deleteAllUsers } = require('../test/utils');
 
@@ -50,10 +50,9 @@ describe('insertUser', () => {
                 user1.username,
                 user1.email,
                 user1.password,
-                user1.id,
             );
 
-            expect('dbUser.insert should fail!!').toBe(null);
+            expect('insertUser should fail!!').toBe(null); // shouldn't be executed
         } catch (err) {
             expect(err).not.toBeUndefined();
         }
