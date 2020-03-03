@@ -1,16 +1,15 @@
 const express = require('express');
 const path = require('path');
 
-const dbUser = require('./db/dbUser');
+const db = require('./db');
 
 const app = express();
-
-dbUser.create('tommy', 'email', 'password');
 
 app.get('/api/', (req, res) => {
     res.send('From server!!');
 });
 
+db.insertUser('hiroki', 'email', 'This is password');
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
