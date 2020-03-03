@@ -103,9 +103,44 @@ const getUserByEmail = (email) => {
     });
 };
 
+/**
+ * Update user. Error thrown if no affected row.
+ * @param {object} userObj 
+ * @returns undefined
+ */
+const updateUser = (userObj) => {
+    const { username, email, password, id } = userObj;
 
-const updateUser = () => {
+    return new Promise((resolve, reject) => {
+        pool.query(
+            `
+                UPDATE users 
+                SET 
+                    username=?,
+                    email=?,
+                    password=? 
+                WHERE id = ?
+            `,
+            [
+                username,
+                email,
+                password,
+                id,
+            ],
+            (err, result, fields) => {
+                if (err) {
+                    return reject(err);
+                }
 
+                const affectedRows = result.affectedRows;
+                if (affectedRows !== 1) {
+                    return reject(new Error("No user updated!! Check the user id."));
+                }
+
+                resolve();
+            }
+        );
+    });
 }
 
 const deleteUser = () => {

@@ -100,12 +100,20 @@ describe('getUserByEmail', () => {
 
 
 describe('updateUser', () => {
-    beforeAll(setup);
+    beforeEach(setup);
+
+    const defaultUpdatedUser = {
+        username: 'updated',
+        email: 'updated@updated.com',
+        password: 'updatedAndHashed',
+    };
 
     test('update user successfully', async () => {
         try {
-            const result = await updateUser();
+            const updatedUser = { ...defaultUpdatedUser, id: user1.id };
+            const user = await updateUser(updatedUser);
 
+            expect(user).toBeUndefined();
         } catch (err) {
             expect(err).toBeUndefined(); // Should Not executed
         }
@@ -113,9 +121,12 @@ describe('updateUser', () => {
 
     test('Throw error if user not exist', async () => {
         try {
+            const updatedUser = { ...defaultUpdatedUser, id: user3.id };
+            await updateUser(updatedUser);
 
+            throw undefined; // Should not executed
         } catch (err) {
-
+            expect(err).not.toBeUndefined();
         }
     });
 
