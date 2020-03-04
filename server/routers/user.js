@@ -3,10 +3,20 @@ const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 const db = require('../db');
+const auth = require('../middlewares/auth');
 const { ErrorHandler } = require('../utils/error');
 const { generateJWT } = require('../utils/jwt');
 
 const router = express.Router();
+
+// @ route     GET /api/user  
+// @ desc      Get user with json web token.
+// @ access    private
+// @ res       { user: { id, username, email } }
+router.get('/', auth, (req, res, next) => {
+    delete req.user.password;
+    res.send({ user: req.user });
+});
 
 // @ route     GET /api/signup   
 // @ desc      Signup user
@@ -68,7 +78,6 @@ router.post('/login', [
 
         const { email, password } = req.body;
 
-        console.log("Before getUserByEmail");
         // Get user
         const user = await db.getUserByEmail(email);
         if (!user) {
@@ -83,13 +92,11 @@ router.post('/login', [
 
         const token = generateJWT(user.id);
 
+        delete user.password;
+
         res.status(200).json({
             token,
-            user: {
-                id: user.id,
-                username: user.username,
-                email: user.email,
-            }
+            user
         });
 
         res.send();

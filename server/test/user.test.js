@@ -1,7 +1,7 @@
 const request = require('supertest');
 
 const app = require('../app');
-const { user1, user2, user3, hashedUser1, hashedUser2 } = require('./fixtures');
+const { user1, user2, user3, hashedUser1, hashedUser2, jwt1, jwt2, jwt3 } = require('./fixtures');
 const { deleteAllUsers, insertUsers } = require('./utils');
 const { getUserById } = require('../db');
 
@@ -9,6 +9,52 @@ const setupUsers = async () => {
     await deleteAllUsers();
     await insertUsers([hashedUser1, hashedUser2]);
 };
+
+describe('GET /api/user', () => {
+    beforeAll(setupUsers);
+    const path = "/api/user/";
+
+    test('Successfully return user object', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send()
+            .expect(200);
+
+        expect(res.body.user).toEqual({
+            id: user1.id,
+            username: user1.username,
+            email: user1.email,
+        });
+    });
+
+    test('Fail to get user without authorization header', async () => {
+        const res = await request(app)
+            .get(path)
+            .send()
+            .expect(400);
+        expect(res.body.message).toBe('"Authorization" header is not provided');
+    });
+
+    test('Fail to get user with invalid json web token', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `aaaaaaaaaa`)
+            .send()
+            .expect(400);
+        expect(res.body.message).toBe("Invalid json web token. Please login again.");
+    });
+
+    test('Fail to get user with token of non existing user', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt3}`)
+            .send()
+            .expect(404);
+
+        expect(res.body.message).toBe("The json web token invalid. Probably the user already deleted.");
+    });
+});
 
 describe('POST /api/user/signup', () => {
     beforeEach(setupUsers);
@@ -63,6 +109,7 @@ describe('POST /api/user/signup', () => {
 });
 
 describe('POST/api/user/login', () => {
+    beforeAll(setupUsers);
     const path = "/api/user/login";
 
     test('Successfully login', async () => {
