@@ -42,6 +42,11 @@ const insertTask = (taskObj) => {
     });
 };
 
+/**
+ * Get a task by id
+ * @param {number} taskId
+ * @returns {object|undefined} - undefined or a task. {id, title, date, completed, userId} 
+ */
 const getTaskById = (taskId) => {
     return new Promise((resolve, reject) => {
         pool.query(
@@ -64,12 +69,9 @@ const getTaskById = (taskId) => {
 
                 const task = result[0];
 
-                if (!task) {
-                    reject(new Error('The task not found!!'));
-                    return;
+                if (task) {
+                    task.completed = !!task.completed;
                 }
-
-                task.completed = !!task.completed;
 
                 resolve(task);
             }
@@ -81,6 +83,7 @@ const getTaskById = (taskId) => {
  * Get tasks by date (and userId)
  * @param {date} date 
  * @param {number} userId 
+ * @returns {object} - tasks. [{id, title, date, completed, userId}]
  */
 const getTasksByDateAndUserId = (date, userId) => {
     return new Promise((resolve, reject) => {
@@ -121,7 +124,7 @@ const getTasksByDateAndUserId = (date, userId) => {
  * @param {number} offset 
  * @param {number} number 
  * @param {number} userId 
- * @returns {array} - tasks 
+ * @returns {array} - tasks. [{id, title, date, completed, userId}]
  */
 const getTasksByLimitAndUserId = (offset, number, userId) => {
     return new Promise((resolve, reject) => {
@@ -152,6 +155,11 @@ const getTasksByLimitAndUserId = (offset, number, userId) => {
     });
 };
 
+/**
+ * Update a task.
+ * @param {object} taskObj  - {title, date, completed, userId, id}
+ * @returns {number} - number of affected rows.
+ */
 const updateTask = (taskObj) => {
     const { title, date, completed, userId, id } = taskObj;
 
@@ -180,17 +188,18 @@ const updateTask = (taskObj) => {
                 }
 
                 const affectedRows = result.affectedRows;
-                if (affectedRows === 0) {
-                    reject(new Error("No task updated!! Check the task id."));
-                    return;
-                }
 
-                resolve();
+                resolve(affectedRows);
             }
         );
     });
 };
 
+/**
+ * Delete a task by id.
+ * @param {number} id 
+ * @returns {number} - number of affected rows.
+ */
 const deleteTask = (id) => {
     return new Promise((resolve, reject) => {
         pool.query(
@@ -204,11 +213,7 @@ const deleteTask = (id) => {
                 }
 
                 const affectedRows = result.affectedRows;
-                if (affectedRows === 0) {
-                    return reject(new Error("The task to delete not found!!"));
-                }
-
-                resolve();
+                resolve(affectedRows);
             }
         );
     });

@@ -41,13 +41,9 @@ describe('getTaskById', () => {
         expect(result).toEqual(task1);
     });
 
-    test('Error thrown with not existing id', async () => {
-        try {
-            await getTaskById(task5.id);
-            throw undefined;
-        } catch (err) {
-            expect(err.message).toBe('The task not found!!');
-        }
+    test('Task is undefined if not found', async () => {
+        const task = await getTaskById(task5.id);
+        expect(task).toBeUndefined();
     })
 });
 
@@ -111,7 +107,10 @@ describe('updateTask', () => {
     test('update task successfully', async () => {
         try {
             const updatedTask = { ...defaultUpdatedTask, id: task1.id };
-            await updateTask(updatedTask);
+
+            const affectedRows = await updateTask(updatedTask);
+            expect(affectedRows).toBe(1);
+
             const fetchedTask = await getTaskById(updatedTask.id);
             expect(fetchedTask).toEqual(updatedTask);
         } catch (err) {
@@ -119,15 +118,11 @@ describe('updateTask', () => {
         }
     });
 
-    test('Throw error if user not exist', async () => {
-        try {
-            const updatedTask = { ...defaultUpdatedTask, id: task5.id };
-            await updateTask(updatedTask);
+    test('No task updated with not existing id', async () => {
+        const updatedTask = { ...defaultUpdatedTask, id: task5.id };
+        const affectedRows = await updateTask(updatedTask);
 
-            throw undefined; // Should not executed
-        } catch (err) {
-            expect(err.message).toBe("No task updated!! Check the task id.");
-        }
+        expect(affectedRows).toBe(0);
     });
 });
 
@@ -135,17 +130,13 @@ describe('deleteTask', () => {
     beforeEach(setupTasks);
 
     test('Delete a task without error', async () => {
-        await deleteTask(task1.id);
+        const affectedRows = await deleteTask(task1.id);
+        expect(affectedRows).toBe(1);
     });
 
-    test('Fail to delete a task with none existing task id', async () => {
-        try {
-            await deleteTask(task5.id);
-
-            throw undefined; // Should Not executed
-        } catch (err) {
-            expect(err.message).toBe('The task to delete not found!!');
-        }
+    test('No deleted task with not existing task', async () => {
+        const affectedRows = await deleteTask(task5.id);
+        expect(affectedRows).toBe(0);
     });
 });
 
