@@ -1,14 +1,13 @@
 const request = require('supertest');
 
 const app = require('../app');
-const { user1, user2, user3 } = require('./fixtures');
+const { user1, user2, user3, hashedUser1, hashedUser2 } = require('./fixtures');
 const { deleteAllUsers, insertUsers } = require('./utils');
-const { decodeJWT } = require('../utils/jwt');
 const { getUserById } = require('../db');
 
 const setupUsers = async () => {
     await deleteAllUsers();
-    await insertUsers([user1, user2]);
+    await insertUsers([hashedUser1, hashedUser2]);
 };
 
 describe('POST /api/user/signup', () => {
@@ -19,26 +18,23 @@ describe('POST /api/user/signup', () => {
     test('Successfully signup a user', async () => {
         const res = await request(app)
             .post(path)
-            .send({
-                username: user3.username,
-                email: user3.email,
-                password: user3.password,
-            })
+            .send(user3)
             .expect(201);
 
-        const { token, user = {} } = res.body;
+        const { token, user } = res.body;
 
         // Check 
-        expect(user.username).toBe(user3.username);
-        expect(user.email).toBe(user3.email);
-        expect(user.id).not.toBeUndefined();
+        expect(user).toEqual({
+            username: user3.username,
+            id: user3.id,
+            email: user3.email,
+        });
 
         // Check if token exists
         expect(token).toEqual(expect.anything());
 
         // Check if password hashed
-        const fetchedUser = await getUserById(user.id);
-        expect(fetchedUser.username).toBe(user3.username);
+        const fetchedUser = await getUserById(user3.id);
         expect(fetchedUser.password).not.toBe(user3.password);
     });
 
@@ -63,5 +59,62 @@ describe('POST /api/user/signup', () => {
             .expect(400);
 
         expect(res.body.message.length).toBe(3);
+    });
+});
+
+describe('POST/api/user/login', () => {
+    const path = "/api/user/login";
+
+    test('Successfully login', async () => {
+        const res = await request(app)
+            .post(path)
+            .send({
+                email: user1.email,
+                password: user1.password,
+            })
+            .expect(200);
+
+        const { token, user } = res.body;
+
+        expect(token).toEqual(expect.anything());
+        expect(user).toEqual({
+            id: user1.id,
+            username: user1.username,
+            email: user1.email,
+        });
+    });
+
+    test('Fail with invalid input formats', async () => {
+        const res = await request(app)
+            .post(path)
+            .send({
+                email: "invalidEmail",
+                password: "12345",
+            })
+            .expect(400);
+
+        expect(res.body.message.length).toBe(2);
+    });
+
+    test('Fail with not existing email', async () => {
+        const res = await request(app)
+            .post(path)
+            .send({
+                email: user1.email + ".jp",
+                password: user1.password,
+            })
+            .expect(400);
+        expect(res.body.message).toBe('Invalid email or password.');
+    });
+
+    test('Fail with wrong password', async () => {
+        const res = await request(app)
+            .post(path)
+            .send({
+                email: user1.email,
+                password: "wrongPassword",
+            })
+            .expect(400);
+        expect(res.body.message).toBe('Invalid email or password.');
     });
 });

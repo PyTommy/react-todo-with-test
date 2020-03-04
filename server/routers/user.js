@@ -11,7 +11,7 @@ const router = express.Router();
 // @ route     GET /api/signup   
 // @ desc      Signup user
 // @ access    public
-// @ res       { token }
+// @ res       { token, user: { id, username, email } }
 router.post('/signup', [
     check('username', 'Please enter username with 3-30 letters').trim().isLength({ min: 3, max: 30 }),
     check('email', 'Please enter valid email').trim().isEmail(),
@@ -30,7 +30,7 @@ router.post('/signup', [
         const salt = await bcrypt.genSalt(10);
         password = await bcrypt.hash(password, salt);
 
-        const id = await db.insertUser({ username, email, password });
+        const id = await db.insertUser({ username, email, password, id: req.body.id }); // id provided for only test;
 
         const token = generateJWT(id);
 
@@ -50,5 +50,54 @@ router.post('/signup', [
         next(err);
     }
 });
+
+// @ route     GET /api/login   
+// @ desc      Login user
+// @ access    public
+// @ res       { token, user: {id, username, email} }
+router.post('/login', [
+    check('email', 'Please enter valid email').trim().isEmail(),
+    check('password', 'Please enter password with 6 or more characters').trim().isLength({ min: 6 })
+], async (req, res, next) => {
+    try {
+        // Validate inputs
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            throw new ErrorHandler(400, errors.array().map(error => error.msg));
+        }
+
+        const { email, password } = req.body;
+
+        console.log("Before getUserByEmail");
+        // Get user
+        const user = await db.getUserByEmail(email);
+        if (!user) {
+            throw new ErrorHandler(400, "Invalid email or password.");
+        };
+
+        // Validate password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            throw new ErrorHandler(400, "Invalid email or password.");
+        };
+
+        const token = generateJWT(user.id);
+
+        res.status(200).json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+            }
+        });
+
+        res.send();
+    } catch (err) {
+        next(err);
+    }
+});
+
+
 
 module.exports = router;
