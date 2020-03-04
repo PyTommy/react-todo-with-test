@@ -1,3 +1,4 @@
+
 /**
  * Returns today's date object.
  * @return {date} - today
@@ -10,3 +11,19 @@ const generateToday = () => {
 
     return new Date(yyyy, mm, dd);
 }
+
+/**
+ * Hash password
+ * @param {string} password
+ * @returns {string} hashedPassword
+ */
+
+/**
+ * Generate json web token
+ */
+
+
+
+/**
+ * Validate json web token
+ */

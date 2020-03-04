@@ -67,12 +67,8 @@ describe('getUserById', () => {
     });
 
     test('get with none existing id returns undefined', async () => {
-        try {
-            const result = await getUserById(user3.id);
-            throw undefined;
-        } catch (err) {
-            expect(err).not.toBeUndefined();
-        }
+        const result = await getUserById(user3.id);
+        expect(result).toBe(undefined);
     })
 });
 
@@ -89,12 +85,8 @@ describe('getUserByEmail', () => {
     });
 
     test('Not found with none existing user id', async () => {
-        try {
-            const result = await getUserByEmail(user3.email);
-            throw undefined;
-        } catch (err) {
-            expect(err).not.toBeUndefined(); // Should Not executed
-        }
+        const result = await getUserByEmail(user3.email);
+        expect(result).toBe(undefined);
     })
 });
 
