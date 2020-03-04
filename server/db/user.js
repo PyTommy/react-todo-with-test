@@ -1,4 +1,5 @@
 const pool = require('./pool');
+const { ErrorHandler } = require('../utils/error');
 
 /**
  * Insert user on database
@@ -6,9 +7,9 @@ const pool = require('./pool');
  * @example 
  * insertUser({
  *  username: 'name',
- *  email: 'email@email.com',
- *  password: 'shouldbehashed',
- *  id: 99 (id is optional)
+ *  email: 'email address',
+ *  password: 'hashed',
+ *  id: 99 // id is optional
  * });
  * @returns {number} id - created id
  */
@@ -28,7 +29,8 @@ const insertUser = (userObj) => {
             ],
             (err, result, fields) => {
                 if (err) {
-                    return reject(err);
+                    reject(err);
+                    return
                 }
 
                 const userId = result.insertId;

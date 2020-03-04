@@ -1,16 +1,24 @@
 const express = require('express');
 const path = require('path');
-
-const db = require('./db');
-
 const app = express();
 
-app.get('/api/', (req, res) => {
-    res.send('From server!!');
+const { handleError } = require('./utils/error');
+
+// Setup middleware
+app.use(express.json()); // parses incoming requests with JSON payloads
+
+// Routers
+app.use('/api/user', require('./routers/user'));
+
+// Handling Error
+app.use((err, req, res, next) => {
+    if (err) {
+        handleError(err, res);
+    }
+    next()
 });
 
-db.insertUser('hiroki', 'email', 'This is password');
-
+// GET/* serve react app 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
@@ -19,7 +27,4 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-    console.log(`Server is up on port ${port}`);
-});
+module.exports = app;
