@@ -62,11 +62,6 @@ const getUserById = (userId) => {
 
                 const user = result[0];
 
-                if (!user) {
-                    reject(new Error('No user found!!'));
-                    return;
-                }
-
                 resolve(user);
             }
         );
@@ -93,11 +88,6 @@ const getUserByEmail = (email) => {
                 }
 
                 const user = result[0];
-
-                if (!user) {
-                    reject(new Error('No user found!!'));
-                    return;
-                }
 
                 resolve(user);
             }
