@@ -4,6 +4,7 @@ const app = require('../app');
 const { user1, user2, user3, hashedUser1, hashedUser2, jwt1, jwt2, jwt3 } = require('./fixtures');
 const { deleteAllUsers, insertUsers } = require('./utils');
 const { getUserById } = require('../db');
+const bcrypt = require('bcryptjs');
 
 const setupUsers = async () => {
     await deleteAllUsers();
@@ -165,6 +166,80 @@ describe('POST/api/user/login', () => {
     });
 });
 
+describe('PUT/api/user', () => {
+    beforeEach(setupUsers);
+    const path = '/api/user';
+
+    const inputs = {
+        username: 'newUsername',
+        email: 'newemail@test.com',
+        password: 'newPassword',
+    };
+
+    test('Successfully update a user', async () => {
+        const res = await request(app)
+            .put(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({
+                ...inputs,
+                currentPassword: user1.password
+            })
+            .expect(200);
+
+        const updatedUser1 = await getUserById(user1.id);
+
+        // Check 
+        expect(updatedUser1.id).toBe(user1.id);
+        expect(updatedUser1.username).toBe(inputs.username);
+        expect(updatedUser1.email).toBe(inputs.email);
+        const isMatch = await bcrypt.compare(inputs.password, updatedUser1.password);
+        expect(isMatch).toBe(true);
+    });
+
+    test('Fail with not valid inputs', async () => {
+        const res = await request(app)
+            .put('/api/user')
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({
+                username: "",
+                email: "fejiwofe",
+                password: "12345",
+                currentPassword: "jfeia",
+            })
+            .expect(400);
+
+        expect(res.body.message.length).toBe(4);
+    });
+
+
+    test('Fail with wrong current password', async () => {
+        const res = await request(app)
+            .put(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({
+                ...inputs,
+                currentPassword: "Wrong Password"
+            })
+            .expect(400);
+
+        expect(res.body.message).toBe('Provided current password is wrong.');
+    });
+
+    test('Fail with duplicated email', async () => {
+        const res = await request(app)
+            .put(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({
+                ...inputs,
+                email: user2.email,
+                currentPassword: user1.password
+            })
+            .expect(400);
+
+        expect(res.body.message)
+            .toBe('The email already used!!');
+    });
+});
 
 describe('DELETE/api/user', () => {
     beforeEach(setupUsers);

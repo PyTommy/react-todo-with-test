@@ -103,6 +103,46 @@ router.post('/login', [
     }
 });
 
+// @ route     PUT /api/user   
+// @ desc      Update user
+// @ access    private
+// @ res       undefined
+router.put('/', [
+    check('username', 'Please enter username with 3-30 letters').trim().isLength({ min: 3, max: 30 }),
+    check('email', 'Please enter valid email').trim().isEmail(),
+    check('password', 'Please enter password with 6 or more characters').trim().isLength({ min: 6 }),
+    check('currentPassword', 'Please enter current password with 6 or more characters').trim().isLength({ min: 6 }),
+    auth
+], async (req, res, next) => {
+    try {
+        // Validate inputs
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            throw new ErrorHandler(400, errors.array().map(error => error.msg));
+        }
+
+        let { username, email, password, currentPassword } = req.body;
+
+        const isMatch = await bcrypt.compare(currentPassword, req.user.password);
+        if (!isMatch) {
+            throw new ErrorHandler(400, 'Provided current password is wrong.')
+        };
+
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        password = await bcrypt.hash(password, salt);
+
+        await db.updateUser({ username, email, password, id: req.user.id });
+
+        res.status(200).json();
+    } catch (err) {
+        // Handling error of duplicating email.
+        if (err.message.includes('ER_DUP_ENTRY')) {
+            next(new ErrorHandler(400, "The email already used!!"));
+        }
+        next(err);
+    }
+});
 
 // @ route     DELETE /api/user   
 // @ desc      Delete user
