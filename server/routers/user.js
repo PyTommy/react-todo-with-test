@@ -18,7 +18,7 @@ router.get('/', auth, (req, res, next) => {
     res.send({ user: req.user });
 });
 
-// @ route     GET /api/signup   
+// @ route     POST /api/user/signup   
 // @ desc      Signup user
 // @ access    public
 // @ res       { token, user: { id, username, email } }
@@ -61,7 +61,7 @@ router.post('/signup', [
     }
 });
 
-// @ route     GET /api/login   
+// @ route     POST /api/user/login   
 // @ desc      Login user
 // @ access    public
 // @ res       { token, user: {id, username, email} }
@@ -98,13 +98,24 @@ router.post('/login', [
             token,
             user
         });
-
-        res.send();
     } catch (err) {
         next(err);
     }
 });
 
 
+// @ route     DELETE /api/user   
+// @ desc      Delete user
+// @ access    private
+// @ res       undefined
+router.delete('/', auth, async (req, res, next) => {
+    try {
+        await db.deleteUser(req.user.id);
+
+        res.status(204).send();
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router;

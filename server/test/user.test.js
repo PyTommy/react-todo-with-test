@@ -18,7 +18,6 @@ describe('GET /api/user', () => {
         const res = await request(app)
             .get(path)
             .set('Authorization', `Bearer ${jwt1}`)
-            .send()
             .expect(200);
 
         expect(res.body.user).toEqual({
@@ -163,5 +162,17 @@ describe('POST/api/user/login', () => {
             })
             .expect(400);
         expect(res.body.message).toBe('Invalid email or password.');
+    });
+});
+
+
+describe('DELETE/api/user', () => {
+    beforeEach(setupUsers);
+
+    test('Successfully delete a user', async () => {
+        const res = await request(app)
+            .delete('/api/user')
+            .set('Authorization', `Bearer ${jwt1}`)
+            .expect(204);
     });
 });
