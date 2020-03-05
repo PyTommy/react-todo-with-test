@@ -9,6 +9,7 @@ app.use(express.json()); // parses incoming requests with JSON payloads
 
 // Routers
 app.use('/api/user', require('./routers/user'));
+app.use('/api/task', require('./routers/task'));
 
 // Handling Error
 app.use((err, req, res, next) => {
