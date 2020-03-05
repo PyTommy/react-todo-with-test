@@ -63,3 +63,72 @@ describe('POST/api/task', () => {
     });
 
 });
+
+describe('PUT/api/task', () => {
+    beforeEach(setupTasks);
+    const path = '/api/task';
+
+    const body = {
+        id: task1.id,
+        title: 'updated',
+        date: new Date(1999, 0, 1),
+        completed: !task1.completed,
+    };
+
+    test('Successfully update a task', async () => {
+        const res = await request(app)
+            .patch(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send(body)
+            .expect(200);
+
+        const updatedTask = await db.getTaskById(body.id);
+
+        expect(updatedTask).toEqual({
+            ...task1,
+            ...body,
+        });
+    });
+
+    test('Update none if body property contain only id', async () => {
+        const res = await request(app)
+            .patch(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({ id: task1.id })
+            .expect(200);
+
+        const updatedTask = await db.getTaskById(body.id);
+        expect(updatedTask).toEqual(task1);
+    });
+
+    test('Fail with invalid inputs', async () => {
+        const res = await request(app)
+            .patch(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({
+                title: 1,
+                date: 'not real date',
+                id: 'fae',
+                completed: 'fawe',
+                userId: task1.userId
+            })
+            .expect(400);
+        expect(res.body.message.length).toBe(5);
+    });
+
+    test('Fail with non existing task id', async () => {
+        const res = await request(app)
+            .patch(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .send({ ...body, id: 999 })
+            .expect(400);
+    });
+
+    test('Fail with invalid authentication', async () => {
+        const res = await request(app)
+            .patch(path)
+            .set('Authorization', `Bearer ${jwt2}`)
+            .send(body)
+            .expect(401);
+    });
+});
