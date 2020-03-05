@@ -1,6 +1,5 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-const moment = require('moment');
 
 const db = require('../db');
 const auth = require('../middlewares/auth');
@@ -42,6 +41,63 @@ router.post('/', [
 });
 
 
+// @ route     GET /api/task
+// @ desc      Get task(s)
+// @ access    private
+// @ res       { tasks: [{ task }] }. {task} when id specified as query.
+// @ EXAMPLE
+//   `/api/task?id=1` returns {task}
+//   `/api/task?date=<ISO date>` returns tasks in the date. 
+//   `/api/task?offset=0&limit=100` returns 100 tasks. 
+router.get('/', auth, async (req, res, next) => {
+    try {
+        let { id, date, offset, limit } = req.query;
+
+        // ?id
+        if (id) {
+            const task = await db.getTaskById(+id);
+
+            if (!task) {
+                throw new ErrorHandler(404, 'No task found.');
+            }
+            if (task.userId !== req.user.id) {
+                throw new ErrorHandler(401, "Unauthorized for deleting the task");
+            };
+
+            return res.send({ task });
+        }
+
+        // ?date
+        if (date) {
+            if (!Date.parse(date)) {
+                throw new ErrorHandler(400, "Invalid query date. It should be recognizable by Date.parse");
+            };
+
+            date = new Date(date);
+
+            const tasks = await db.getTasksByDateAndUserId(date, req.user.id);
+
+            return res.send({ tasks });
+        }
+
+        if (typeof +offset === 'number' & typeof +limit === 'number') {
+            if (+offset < 0 || +limit <= 0) {
+                throw new ErrorHandler(400, 'offset should be equal or greater than 0. limit should be greater than 0.');
+            }
+
+            const tasks = await db.getTasksByLimitAndUserId(+offset, +limit, req.user.id);
+
+            return res.send({ tasks })
+        }
+
+        throw new ErrorHandler(400, 'Query should be specified!!');
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+
 // @ route     PUT /api/task
 // @ desc      update title, date or completed.
 // @ body { title(opt), date(opt), completed(opt), id}.
@@ -62,7 +118,7 @@ router.patch('/', auth, async (req, res, next) => {
         if (title && !(typeof title === "string" && title.length <= 30)) {
             validationErrors.push('Title should be 1-50 characters.');
         }
-        if (date && !moment(date).isValid()) {
+        if (date && !Date.parse(date)) {
             validationErrors.push('Date should be valid date');
         }
         if (completed !== undefined && typeof completed !== 'boolean') {

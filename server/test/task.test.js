@@ -21,6 +21,8 @@ const setupTasks = async () => {
 
 beforeAll(setupUsers);
 
+
+
 describe('POST/api/task', () => {
     beforeEach(setupTasks);
     const path = '/api/task';
@@ -63,6 +65,127 @@ describe('POST/api/task', () => {
     });
 
 });
+
+
+
+
+describe('GET/api/task?id', () => {
+    beforeEach(setupTasks);
+    const path = '/api/task';
+
+    test('Successfully get a task', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ id: task1.id })
+            .expect(200);
+
+        expect(res.body.task.id).toEqual(task1.id);
+    });
+
+    test('Fail to find it with not existing id', async () => {
+        await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ id: task5.id })
+            .expect(404);
+    });
+
+    test('Fail with unauthorized', async () => {
+        await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt2}`)
+            .query({ id: task1.id })
+            .expect(401);
+    });
+});
+
+
+
+
+describe('GET/api/task?date', () => {
+    beforeAll(setupTasks);
+    const path = '/api/task';
+
+    test('Successfully get a tasks in the date', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ date: task1.date })
+            .expect(200);
+
+        expect(res.body.tasks.length).toBe(2);
+    });
+
+    test('Fail with invalid date', async () => {
+        await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ date: "not real date" })
+            .expect(400);
+    });
+
+    test('Returns [] if not found', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ date: new Date(1999, 0, 2) })
+            .expect(200);
+        expect(res.body.tasks).toEqual([]);
+    });
+});
+
+
+
+
+describe('GET/api/task?offset&limit', () => {
+    beforeEach(setupTasks);
+    const path = '/api/task';
+
+    test('Successfully get tasks', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ offset: 2, limit: 2 })
+            .expect(200);
+
+        expect(res.body.tasks.length).toBe(2);
+        expect(res.body.tasks[0].id).toBe(task3.id);
+    });
+
+    test('Successfully get tasks up to 100', async () => {
+        const res = await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ offset: 0, limit: 100 })
+            .expect(200);
+
+        expect(res.body.tasks.length).toBe(4); // all tasks stored
+        expect(Date.parse(res.body.tasks[0].date))
+            .toBeGreaterThan(Date.parse(res.body.tasks[3].date)); // newer to older
+    });
+
+    test('Fail with invalid offset', async () => {
+        await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ offset: -1, limit: 100 })
+            .expect(400);
+
+        expect('message')
+    });
+
+    test('Fail with invalid limit', async () => {
+        await request(app)
+            .get(path)
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ offset: 0, limit: 0 })
+            .expect(400);
+    });
+});
+
+
+
 
 describe('PUT/api/task', () => {
     beforeEach(setupTasks);
