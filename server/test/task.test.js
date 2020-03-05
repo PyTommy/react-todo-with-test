@@ -255,3 +255,43 @@ describe('PUT/api/task', () => {
             .expect(401);
     });
 });
+
+
+describe('DELETE/api/task', () => {
+    beforeEach(setupTasks);
+
+    test('Successfully delete a task', async () => {
+        await request(app)
+            .delete('/api/task')
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ id: task1.id })
+            .expect(204);
+
+        const task = await db.getTaskById(task1.id);
+        expect(task).toBeUndefined();
+    });
+
+    test('Thrown error if query id is not number', async () => {
+        await request(app)
+            .delete('/api/task')
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ id: "not number" })
+            .expect(400);
+    });
+
+    test('Unauthorized to delete the task', async () => {
+        await request(app)
+            .delete('/api/task')
+            .set('Authorization', `Bearer ${jwt2}`)
+            .query({ id: task1.id })
+            .expect(401);
+    });
+
+    test('Error throw if no task found', async () => {
+        await request(app)
+            .delete('/api/task')
+            .set('Authorization', `Bearer ${jwt1}`)
+            .query({ id: task5.id })
+            .expect(404);
+    });
+});

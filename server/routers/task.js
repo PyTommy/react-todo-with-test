@@ -9,6 +9,7 @@ const router = express.Router();
 
 // @ route     POST /api/task  
 // @ desc      Create a task
+// @ body      { title, date }
 // @ access    private
 // @ res       { id }
 router.post('/', [
@@ -100,7 +101,7 @@ router.get('/', auth, async (req, res, next) => {
 
 // @ route     PUT /api/task
 // @ desc      update title, date or completed.
-// @ body { title(opt), date(opt), completed(opt), id}.
+// @ body      { title(opt), date(opt), completed(opt), id}.
 // @ access    private
 // @ res       undefined
 router.patch('/', auth, async (req, res, next) => {
@@ -153,6 +154,41 @@ router.patch('/', auth, async (req, res, next) => {
         await db.updateTask(updatedTask);
 
         res.status(200).send();
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+
+// @ route     DELETE /api/task   
+// @ desc      Delete a task
+// @ query     {number} id
+// @ access    private
+// @ res       undefined
+router.delete('/', [
+    check('id').isNumeric(),
+    auth
+], async (req, res, next) => {
+    try {
+        const { id } = req.query;
+
+        if (isNaN(+id)) {
+            throw new ErrorHandler(400, 'Query id should be a number');
+        };
+
+        const task = await db.getTaskById(id);
+
+        if (!task) {
+            throw new ErrorHandler(404, 'Task to delete not found');
+        }
+        if (task.userId !== req.user.id) {
+            throw new ErrorHandler(401, "Unauthorized for deleting the task");
+        }
+
+        await db.deleteTask(id);
+
+        res.status(204).send();
     } catch (err) {
         next(err);
     }
