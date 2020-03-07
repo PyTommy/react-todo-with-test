@@ -1,13 +1,19 @@
 @import '../sharedStyle/variables.scss';
 
-$sideBarWidth: 20rem;
-
 .DayPage {
     margin-top: $navHeight;
-    display: grid;
-    grid-template-columns: 1fr 20rem;
+};
+
+.main {
+    width: calc(100% - #{$sideBarWidth});
 };
 
 .sideBar {
-    background-color: red;
+    position: fixed;
+    top: $navHeight;
+    right: 0;
+    z-index: 90;
+    height: calc(100vh - #{$navHeight});
+    width: $sideBarWidth;
+    background-color: white;
 };

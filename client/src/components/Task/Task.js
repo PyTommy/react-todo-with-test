@@ -7,7 +7,7 @@ const Task = props => {
     const { task, isEditing, toggleComplete, onClickEdit, onClickDelete } = props;
 
     // Styles
-    const componentTaskClass = ["d-flex justify-content-between align-items-center list-group-item list-group-item-action p-0 rounded-0 overflow-hidden"];
+    const componentTaskClass = ["d-flex justify-content-between align-items-center list-group-item list-group-item-action border-0 p-0 overflow-hidden"];
     if (!isEditing) {
         componentTaskClass.push(classes.TaskNotEditing);
     };

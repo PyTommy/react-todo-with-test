@@ -9,10 +9,10 @@ import AddTaskForm from '../components/AddTaskForm/AddTaskFrom';
 const DayPage = props => {
     return (
         <div className={classes.DayPage}>
-            <div className={classes.Main}>
+            <div className={classes.main}>
                 <Tasks />
             </div>
-            <div className={classes.sideBar}>
+            <div className={[classes.sideBar, "border-left"].join(" ")}>
                 <AddTaskForm />
             </div>
         </div>
