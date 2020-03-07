@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './Task.module.scss';
 
+
 const Task = props => {
     const { task, isEditing, toggleComplete, onClickEdit, onClickDelete } = props;
 
@@ -28,14 +29,6 @@ const Task = props => {
         };
     };
 
-    const onEditHandler = () => {
-        onClickEdit();
-    }
-
-    const onDeleteHandler = () => {
-        onClickDelete();
-    };
-
     return (
         <div
             className={componentTaskClass.join(' ')}
@@ -48,13 +41,13 @@ const Task = props => {
                 data-test='task-buttons'>
                 <button
                     data-test="task-edit"
-                    onClick={onEditHandler}
+                    onClick={onClickEdit}
                     className="btn btn-warning rounded-circle mr-2">
                     <ion-icon name="pencil-outline"></ion-icon>
                 </button>
                 <button
                     data-test="task-delete"
-                    onClick={onDeleteHandler}
+                    onClick={onClickDelete}
                     className="btn btn-danger rounded-circle">
                     <ion-icon name="trash-bin"></ion-icon>
                 </button>
