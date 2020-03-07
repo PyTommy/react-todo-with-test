@@ -1,0 +1,13 @@
+@import '../../sharedStyle/variables.scss';
+
+.Navigation {
+    height: $navHeight;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background-color: white;
+    
+    display: flex;
+    align-items: center;
+}

@@ -1,12 +1,18 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
 import DayPage from './pages/DayPage';
+import variables from './sharedStyle/variables.scss';
+import Layout from './components/Layout/Layout';
 
 function App() {
+
   return (
-    <div data-test="component-app">
-      <h1 className="h2 bg-primary m-0">ToDoApp</h1>
-      <DayPage />
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <DayPage />
+      </Layout>
+    </BrowserRouter>
   );
 }
 
