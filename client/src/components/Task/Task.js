@@ -1,31 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classes from './Task.module.css';
+import classes from './Task.module.scss';
 
 const Task = props => {
-    const { task, isEditing, toggleComplete } = props;
-    const buttonsClass = [];
+    const { task, isEditing, toggleComplete, onClickEdit, onClickDelete } = props;
+
+    // Styles
+    const componentTaskClass = ["d-flex justify-content-between align-items-center list-group-item list-group-item-action p-0 rounded-0 overflow-hidden"];
     if (!isEditing) {
-        buttonsClass.push(classes.hidden);
+        componentTaskClass.push(classes.TaskNotEditing);
+    };
+
+    const titleClass = ["p-2 pl-3 pr-3"];
+    if (task.completed) {
+        titleClass.push(classes.titleCompleted, "text-secondary");
     }
 
+    const buttonsClass = [classes.buttons, "p-2"];
+    isEditing
+        ? buttonsClass.push(classes.buttonsShown)
+        : buttonsClass.push(classes.buttonsHidden);
+
+    // Functions
     const onToggleCompletedHandler = () => {
         if (!isEditing) {
             toggleComplete();
         };
     };
 
+    const onEditHandler = () => {
+        onClickEdit();
+    }
+
+    const onDeleteHandler = () => {
+        onClickDelete();
+    };
 
     return (
         <div
-            className={classes.Task}
+            className={componentTaskClass.join(' ')}
             data-test='component-task'
-            onClick={onToggleCompletedHandler}>
-            <span data-test='task-title'>{task.title}</span>
+            onClick={() => onToggleCompletedHandler()}
+        >
+            <span className={titleClass.join(" ")} data-test='task-title'>{task.title}</span>
             <div
                 className={buttonsClass.join(' ')}
                 data-test='task-buttons'>
-                aaa
+                <button
+                    data-test="task-edit"
+                    onClick={onEditHandler}
+                    className="btn btn-warning rounded-circle mr-2">
+                    <ion-icon name="pencil-outline"></ion-icon>
+                </button>
+                <button
+                    data-test="task-delete"
+                    onClick={onDeleteHandler}
+                    className="btn btn-danger rounded-circle">
+                    <ion-icon name="trash-bin"></ion-icon>
+                </button>
             </div>
         </div>
     );
