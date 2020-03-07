@@ -1,14 +1,14 @@
-import TaskClass from './task';
+import TaskModel from './task';
 import * as dummy from '../../test/fixtures';
 
-describe('TaskClass', () => {
+describe('TaskModel', () => {
     test('create object', () => {
-        const createdTask = new TaskClass(dummy.taskU1D1Cf);
+        const createdTask = new TaskModel(dummy.taskU1D1Cf);
         expect(createdTask).toEqual(dummy.taskU1D1Cf);
     });
 
     test('create object with iso date', () => {
-        const createdTask = new TaskClass({
+        const createdTask = new TaskModel({
             ...dummy.taskU1D1Cf,
             date: dummy.taskU1D1Cf.date.toISOString()
         });
@@ -17,7 +17,7 @@ describe('TaskClass', () => {
 
     test('throw error with invalid arg props', () => {
         try {
-            new TaskClass({
+            new TaskModel({
                 ...dummy.taskU1D1Cf,
                 invalidProp: 'invalid',
                 invalidProp2: 'invalid2'
@@ -29,7 +29,7 @@ describe('TaskClass', () => {
 
     test('throw error with invalid arg prop types', () => {
         try {
-            new TaskClass({
+            new TaskModel({
                 id: 'string',
                 title: 1,
                 completed: 1,

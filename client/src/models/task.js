@@ -1,6 +1,12 @@
 import ErrorHandler from './error';
 
-export default class TaskClass {
+/**
+ * Create task class
+ * @class TaskModel
+ * @param {object} inputs
+ * @example new TaskModel({ id, title, completed, date, userId })
+ */
+export default class TaskModel {
     constructor(inputs) {
         const { id, title, completed, date, userId } = inputs;
 
