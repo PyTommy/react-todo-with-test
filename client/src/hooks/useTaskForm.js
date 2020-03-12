@@ -110,7 +110,10 @@ const useTaskForm = (
 
         setState(prevState => ({
             ...prevState,
-            title: ""
+            title: {
+                value: '',
+                isValid: false
+            }
         }));
     };
 
