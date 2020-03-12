@@ -35,3 +35,7 @@ export const createTask = ({ title, date }) => {
 
     };
 };
+
+export const editTask = ({ title, date, completed, id }) => {
+    return null;
+};
