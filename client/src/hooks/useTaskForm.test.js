@@ -1,4 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
+import * as reactRedux from 'react-redux';
 
 import useTaskForm from './useTaskForm';
 import generateToday from '../utils/generateToday';
@@ -6,16 +7,26 @@ import * as taskActions from '../store/task/taskActions';
 
 
 let result;
-const mockCreateTask = jest.fn();
-const mockEditTask = jest.fn();
+const mockCreateTaskReturnValue = "mockCreateTask called";
+const mockEditTaskReturnValue = "mockEditTask called";
+const mockCreateTask = jest.fn().mockReturnValue(mockCreateTaskReturnValue);
+const mockEditTask = jest.fn().mockReturnValue(mockEditTaskReturnValue);
+const mockDispatch = jest.fn();
+
 
 // mock modules
 taskActions.createTask = mockCreateTask;
 taskActions.editTask = mockEditTask;
+// jest.mock('react-redux', () => ({
+//     useDispatch: (arg) => mockDispatch(arg)
+// }));
+reactRedux.useDispatch = () => mockDispatch;
+
 
 const setup = (initialDate, initialTitle, completed, id) => {
     mockCreateTask.mockClear();
     mockEditTask.mockClear();
+    mockDispatch.mockClear();
     const obj = renderHook(() => useTaskForm(initialDate, initialTitle, completed, id));
     result = obj.result;
 };
@@ -96,7 +107,8 @@ describe('New task form', () => {
             date: generateToday()
         };
 
-        expect(mockEditTask).toHaveBeenCalledTimes(0);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledWith(mockCreateTaskReturnValue);
         expect(mockCreateTask).toHaveBeenCalledTimes(1);
         expect(mockCreateTask).toHaveBeenCalledWith(expectedCreateTaskArgs)
     });
@@ -175,7 +187,8 @@ describe('Edit task form', () => {
             result.current.submit();
         });
 
-        expect(mockCreateTask).toHaveBeenCalledTimes(0);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledWith(mockEditTaskReturnValue);
         expect(mockEditTask).toHaveBeenCalledTimes(1);
         expect(mockEditTask).toHaveBeenCalledWith(editingTask);
     });

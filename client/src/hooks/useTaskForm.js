@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
 import generateToday from '../utils/generateToday';
 import { createTask, editTask } from '../store/task/taskActions';
 
@@ -48,6 +50,7 @@ const useTaskForm = (
         }
     });
     const [validity, setValidity] = React.useState(!!initialTitle && !!initialDate);
+    const dispatch = useDispatch();
 
     // Update validity when state.title.isValid or state.date.isValid changed. 
     React.useEffect(() => {
@@ -91,17 +94,18 @@ const useTaskForm = (
         };
 
         if (id === undefined) { // avoid the case that id === 0
-            createTask({
+            dispatch(createTask({
                 title: state.title.value,
                 date: state.date.value
-            });
+            }));
+            console.log("after createTask with dispatch")
         } else {
-            editTask({
+            dispatch(editTask({
                 title: state.title.value,
                 date: state.date.value,
                 completed,
                 id
-            });
+            }));
         };
 
         setState(prevState => ({
