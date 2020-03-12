@@ -31,8 +31,6 @@ export const createTask = ({ title, date }) => {
         } catch (err) {
             console.error(err);
         }
-
-
     };
 };
 
