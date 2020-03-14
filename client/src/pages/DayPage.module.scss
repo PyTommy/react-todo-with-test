@@ -1,0 +1,19 @@
+@import '../sharedStyle/variables.scss';
+
+.DayPage {
+    margin-top: $navHeight;
+};
+
+.main {
+    width: calc(100% - #{$sideBarWidth});
+};
+
+.sideBar {
+    position: fixed;
+    top: $navHeight;
+    right: 0;
+    z-index: 90;
+    height: calc(100vh - #{$navHeight});
+    width: $sideBarWidth;
+    background-color: white;
+};

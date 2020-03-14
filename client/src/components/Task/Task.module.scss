@@ -1,0 +1,23 @@
+.TaskNotEditing {
+    cursor: pointer;
+}
+
+.titleCompleted {
+    text-decoration: line-through;
+}
+
+
+.buttons {
+    transition: all .3s ease-out;
+    display: flex;
+
+    &Shown {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    &Hidden {
+        transform: translateX(150%);
+        opacity: 0;
+    }
+}

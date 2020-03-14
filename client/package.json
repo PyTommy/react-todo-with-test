@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
+    "axios": "^0.19.2",
     "babel-eslint": "10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
@@ -37,6 +38,8 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
+    "moment": "^2.24.0",
+    "node-sass": "^4.13.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -46,8 +49,13 @@
     "postcss-safe-parser": "4.0.1",
     "react": "^16.13.0",
     "react-app-polyfill": "^1.0.6",
+    "react-calendar": "^2.19.2",
     "react-dev-utils": "^10.2.0",
     "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "resolve": "1.15.0",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.2",
@@ -135,5 +143,14 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "^3.2.1",
+    "check-prop-types": "^1.1.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest-enzyme": "^7.1.2",
+    "moxios": "^0.4.0"
+  },
+  "proxy": "http://localhost:8000"
 }
