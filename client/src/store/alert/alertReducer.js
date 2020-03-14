@@ -1,0 +1,22 @@
+import { actionTypes } from './alertAction';
+
+// Initial state
+const alertReducerDefaultState = [];
+
+// Example of the state
+// [{ id, alertType, msg }, ...]
+
+const alertReducer = (state = alertReducerDefaultState, action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case actionTypes.SET_ALERT:
+            return [...state, payload];
+        case actionTypes.REMOVE_ALERT:
+            return state.filter(alert => alert.id !== payload);
+        default:
+            return state;
+    };
+};
+
+export default alertReducer;
