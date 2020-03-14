@@ -67,16 +67,16 @@ const Input = (props) => {
         if (email && !validateEmail(value)) {
             validity = false;
         }
-        if (minLength != undefined && value.length < minLength) {
+        if (minLength !== undefined && value.length < minLength) {
             validity = false;
         }
-        if (maxLength != undefined && value.length > maxLength) {
+        if (maxLength !== undefined && value.length > maxLength) {
             validity = false;
         }
-        if (min != undefined && +value < min) {
+        if (min !== undefined && +value < min) {
             validity = false;
         }
-        if (max != undefined && +value > max) {
+        if (max !== undefined && +value > max) {
             validity = false;
         }
 

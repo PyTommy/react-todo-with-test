@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import Task from '../Task/Task';
 
 const Tasks = props => {
@@ -40,8 +39,5 @@ const Tasks = props => {
     )
 }
 
-Tasks.propTypes = {
-
-}
 
 export default Tasks

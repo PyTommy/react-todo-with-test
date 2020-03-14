@@ -4,7 +4,7 @@ import { actionTypes } from './alertAction';
 const alertReducerDefaultState = [];
 
 // Example of the state
-// [{ id, alertType, msg }, ...]
+// [{ id, alertType, message }, ...]
 
 const alertReducer = (state = alertReducerDefaultState, action) => {
     const { type, payload } = action;

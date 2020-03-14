@@ -3,9 +3,6 @@ import axiosInstance from '../../axiosInstance';
 
 import { signup } from './userAction';
 import { storeFactory } from '../../../test/testUtils';
-import {
-    user1, user2,
-} from '../../../test/fixtures';
 
 const setupMoxios = (status, response) => {
     moxios.install(axiosInstance);
@@ -62,8 +59,9 @@ describe('signup', () => {
             password: "dummyPassword"
         };
         const dummyStatus = 400;
+        const dummyRes = { message: "Error" };
 
-        setupMoxios(dummyStatus, {});
+        setupMoxios(dummyStatus, dummyRes);
         const store = storeFactory();
 
         try {
@@ -75,7 +73,7 @@ describe('signup', () => {
             throw new Error("Should not be executed");
         } catch (err) {
             expect(store.getState().user).toEqual({});
-            expect(err).not.toBeUndefined();
+            expect(store.getState().alert.length).toBe(1);
         }
     });
 });

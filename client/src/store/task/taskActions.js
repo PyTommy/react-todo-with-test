@@ -1,5 +1,6 @@
 import axios from '../../axiosInstance';
 
+import { setAlert } from '../alert/alertAction';
 import TaskModel from '../../models/task';
 
 export const actionTypes = {
@@ -29,7 +30,8 @@ export const createTask = ({ title, date }) => {
                 payload: newTask
             });
         } catch (err) {
-            console.error(err);
+            console.log(err.response.data);
+            dispatch(setAlert(err.response.data.message));
         }
     };
 };

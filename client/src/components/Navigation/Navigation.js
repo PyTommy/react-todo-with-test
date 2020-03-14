@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classes from './Navigation.module.scss';
 import NavigationItem from '../NavigationItem/NavigationItem';
 
@@ -15,8 +14,5 @@ const Navigation = props => {
     )
 }
 
-Navigation.propTypes = {
-
-}
 
 export default Navigation;

@@ -1,4 +1,6 @@
 import axios from '../../axiosInstance';
+import { setAlert } from '../alert/alertAction';
+
 export const actionTypes = {
     SIGNUP: "SIGNUP",
     LOGIN: "LOGIN",
@@ -22,7 +24,7 @@ export const signup = (username, email, password) => {
 
             localStorage.setItem("token", token);
         } catch (err) {
-            throw new Error(err.message);
+            dispatch(setAlert(err.response.data.message, "danger"));
         };
     };
 };

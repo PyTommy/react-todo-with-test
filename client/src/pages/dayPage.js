@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import classes from './DayPage.module.scss';
 import Tasks from '../components/Tasks/Tasks';
@@ -17,10 +16,6 @@ const DayPage = props => {
             </div>
         </div>
     )
-}
-
-DayPage.propTypes = {
-
 }
 
 export default DayPage;

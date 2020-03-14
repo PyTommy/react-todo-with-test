@@ -5,7 +5,7 @@ export const actionTypes = {
     REMOVE_ALERT: "REMOVE_ALERT"
 };
 
-export const setAlert = (message, alertType, timeout = 3000) => dispatch => {
+export const setAlert = (message, alertType = "danger", timeout = 3000) => dispatch => {
     if (message instanceof Array) {
         message.forEach((singleMessage) => {
             const id = uuid.v4();
@@ -30,7 +30,7 @@ export const setAlert = (message, alertType, timeout = 3000) => dispatch => {
             type: actionTypes.SET_ALERT,
             payload: {
                 id,
-                message: message,
+                message,
                 alertType
             }
         });
