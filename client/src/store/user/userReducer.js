@@ -6,12 +6,16 @@ import { actionTypes } from './userAction';
  * @param {object} action - action to be reduced.
  * @returns {object} - new task state.
  */
-export default (state = {}, action) => {
+export default (state = { loading: true }, action) => {
     const { type, payload } = action;
 
     switch (type) {
         case actionTypes.SIGNUP:
+        case actionTypes.LOGIN:
+        case actionTypes.LOAD_USER_SUCCESS:
             return payload;
+        case actionTypes.LOAD_USER_FAIL:
+            return {};
         default:
             return state;
     }

@@ -92,7 +92,17 @@ export const AuthForm = () => {
                         onChange={form.change} />
                 </div>
             )}
-            <button type="submit" className="btn btn-primary" disabled={!form.validity}>Submit</button>
+            <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ width: "8rem" }}
+                disabled={!form.validity || form.loading}
+            >
+                {form.loading
+                    ? <span className="spinner-border spinner-border-sm"></span>
+                    : "Submit"
+                }
+            </button>
         </form>
     )
 }

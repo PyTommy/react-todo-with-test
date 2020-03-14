@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { signup } from '../store/user/userAction';
+import { signup, login } from '../store/user/userAction';
 import { setAlert } from '../store/alert/alertAction';
 
 /**
@@ -54,6 +54,7 @@ const useAuthForm = () => {
     });
     const [isSignupForm, setIsSignupForm] = React.useState(false);
     const [validity, setValidity] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const dispatch = useDispatch();
 
     // Update validity when state.title.isValid or state.date.isValid changed. 
@@ -96,23 +97,31 @@ const useAuthForm = () => {
     * @param {any} value
     * @param {string} identifier - title || date
     */
-    const submit = () => {
+    const submit = async () => {
+
         if (!validity) {
             throw new Error('Form is not valid');
         };
-
-        if (isSignupForm) {
-            if (state.password.value !== state.confirmPassword.value) {
-                return dispatch(setAlert("Password doesn't match"));
+        try {
+            setLoading(true);
+            if (isSignupForm) {
+                if (state.password.value !== state.confirmPassword.value) {
+                    return dispatch(setAlert("Password doesn't match"));
+                };
+                await dispatch(signup(
+                    state.username.value,
+                    state.email.value,
+                    state.password.value,
+                ));
+            } else {
+                await dispatch(login(
+                    state.email.value,
+                    state.password.value,
+                ));
             };
-            dispatch(signup(
-                state.username.value,
-                state.email.value,
-                state.password.value,
-            ));
-        } else {
-            // Login
-            console.log("Login");
+        } catch (err) {
+            setAlert(err.message);
+            setLoading(false);
         };
     };
 
@@ -127,6 +136,7 @@ const useAuthForm = () => {
         confirmPassword: state.confirmPassword,
         validity,
         isSignupForm,
+        loading,
         toggleForm,
         change,
         submit,

@@ -13,7 +13,7 @@ export const createTask = ({ title, date }) => {
         try {
             const user = getState().user;
 
-            const res = await axios.post('/api/task');
+            const res = await axios.post('/api/task', { title, date });
 
             const taskId = res.data.id;
 
@@ -22,7 +22,7 @@ export const createTask = ({ title, date }) => {
                 title,
                 date,
                 completed: false,
-                userId: user.id
+                userId: +user.id
             });
 
             dispatch({
