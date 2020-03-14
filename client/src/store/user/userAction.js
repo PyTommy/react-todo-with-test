@@ -11,7 +11,7 @@ export const actionTypes = {
 export const signup = (username, email, password) => {
     return async dispatch => {
         try {
-            const res = await axios.post('/api/user', {
+            const res = await axios.post('/api/user/signup', {
                 username, email, password
             });
 

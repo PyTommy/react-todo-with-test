@@ -10,6 +10,7 @@ const Navigation = props => {
             <NavigationItem to="/home">Home</NavigationItem>
             <NavigationItem to="/list">List</NavigationItem>
             <NavigationItem to="/mypage">MyPage</NavigationItem>
+            <NavigationItem to="/auth">AuthPage</NavigationItem>
         </ul>
     )
 }

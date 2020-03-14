@@ -30,8 +30,9 @@ export const createTask = ({ title, date }) => {
                 payload: newTask
             });
         } catch (err) {
-            console.log(err.response.data);
-            dispatch(setAlert(err.response.data.message));
+            const message = err.response ? err.response.data.message : err.message;
+            console.error(message);
+            dispatch(setAlert(message));
         }
     };
 };

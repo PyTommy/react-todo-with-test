@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
  * @property {string} placeholder - (optional)
  * @property {string} identifier  - Passed as first param of onChangeText.
  * @property {function} onChange - Identifier, value, isValid will be passed as param.
+ * @property {string} type
  * @property {object} className - Customize class (optional)
  * @property {object} style - Customize style (optional)
  * Validation
@@ -29,6 +30,7 @@ const Input = (props) => {
         onChange,
         isValid,
         invalidMessage,
+        type = "text",
         className,
         style,
 
@@ -94,6 +96,7 @@ const Input = (props) => {
             <input
                 className={["form-control shadow-none", className].join(" ")}
                 style={style}
+                type={type}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChangeHandler}
