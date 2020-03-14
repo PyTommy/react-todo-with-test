@@ -101,6 +101,7 @@ const Input = (props) => {
                 data-test="element-input" />
             {invalidMessage && isBlurred && !isValid && (
                 <span
+                    className="text-danger pl-2"
                     data-test="invalid-message">{invalidMessage}
                 </span>
             )}

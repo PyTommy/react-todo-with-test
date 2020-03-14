@@ -5,7 +5,6 @@ import DayPage from './pages/DayPage';
 import Layout from './components/Layout/Layout';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Layout>

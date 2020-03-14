@@ -98,7 +98,6 @@ const useTaskForm = (
                 title: state.title.value,
                 date: state.date.value
             }));
-            console.log("after createTask with dispatch")
         } else {
             dispatch(editTask({
                 title: state.title.value,

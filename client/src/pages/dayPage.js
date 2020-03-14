@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import classes from './DayPage.module.scss';
 import Tasks from '../components/Tasks/Tasks';
-import AddTaskForm from '../components/AddTaskForm/AddTaskFrom';
+import TaskForm from '../components/TaskForm/TaskForm';
 
 
 const DayPage = props => {
@@ -13,7 +13,7 @@ const DayPage = props => {
                 <Tasks />
             </div>
             <div className={[classes.sideBar, "border-left"].join(" ")}>
-                <AddTaskForm />
+                <TaskForm />
             </div>
         </div>
     )
