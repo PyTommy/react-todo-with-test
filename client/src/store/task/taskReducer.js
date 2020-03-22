@@ -8,10 +8,11 @@ import { actionTypes } from './taskActions';
  */
 export default (state = {}, action) => {
     const { type, payload } = action;
+    let isoDate;
 
     switch (type) {
         case actionTypes.CREATE_TASK:
-            const isoDate = payload.date.toISOString();
+            isoDate = payload.date.toISOString();
 
             if (state[isoDate]) {
                 return {
@@ -24,7 +25,14 @@ export default (state = {}, action) => {
                     [isoDate]: [payload]
                 };
             }
-
+        case actionTypes.SET_TASKS_BY_DATE:
+            if (payload.length > 0) {
+                isoDate = payload[0].date.toISOString();
+                return {
+                    ...state,
+                    [isoDate]: [...payload]
+                };
+            }
         default:
             return state;
     }

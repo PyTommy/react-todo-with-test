@@ -5,6 +5,7 @@ import TaskModel from '../../models/task';
 
 export const actionTypes = {
     CREATE_TASK: "CREATE_TASK",
+    SET_TASKS_BY_DATE: "SET_TASKS_BY_DATE",
 };
 
 
@@ -39,4 +40,25 @@ export const createTask = ({ title, date }) => {
 
 export const editTask = ({ title, date, completed, id }) => {
     return null;
+};
+
+export const getTasksByDate = (date) => {
+    return async (dispatch) => {
+        try {
+            const res = await axios.get(`/api/task?date=${date}`);
+
+            const tasks = res.data.tasks.map(task => {
+                return new TaskModel(task);
+            });
+
+            dispatch({
+                type: actionTypes.SET_TASKS_BY_DATE,
+                payload: tasks
+            });
+        } catch (err) {
+            const message = err.response ? err.response.data.message : err.message;
+            console.error(message);
+            dispatch(setAlert(message));
+        }
+    };
 };
