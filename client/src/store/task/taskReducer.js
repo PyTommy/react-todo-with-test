@@ -17,7 +17,7 @@ export default (state = {}, action) => {
             if (state[isoDate]) {
                 return {
                     ...state,
-                    [isoDate]: [payload, ...state[isoDate]]
+                    [isoDate]: [...state[isoDate], payload]
                 };
             } else {
                 return {

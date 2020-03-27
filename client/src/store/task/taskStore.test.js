@@ -71,8 +71,8 @@ describe('createTask action creator', () => {
         const expectedState = {
             ...initialState.task,
             [taskU1D1Cf.date.toISOString()]: [
+                ...initialState.task[taskU1D1Cf.date.toISOString()],
                 { ...taskU1D1Cf, id: resTaskId },
-                ...initialState.task[taskU1D1Cf.date.toISOString()]
             ]
         };
 

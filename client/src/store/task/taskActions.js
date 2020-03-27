@@ -42,6 +42,7 @@ export const editTask = ({ title, date, completed, id }) => {
     return null;
 };
 
+
 export const getTasksByDate = (date) => {
     return async (dispatch) => {
         try {

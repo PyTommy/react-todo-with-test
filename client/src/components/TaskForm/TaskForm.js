@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import DropdownCalender from '../DropdownCalender/DropdownCalender';
 import useTaskForm from '../../hooks/useTaskForm';
@@ -32,12 +33,12 @@ const TaskForm = props => {
 
     return (
         <form
-            className="p-3"
-            data-test="component-addTaskForm">
+            data-test="component-TaskForm"
+            className="p-3">
             <div
+                data-test="show-date"
                 className="btn btn-light btn-lg shadow-none mt-2 mb-2 mr-auto ml-auto"
-                onClick={toggleShowCalender}
-                data-test='addTaskForm-date'>
+                onClick={toggleShowCalender}>
                 {moment(form.date.value).format('YYYY/MM/DD')}
             </div>
             <DropdownCalender
@@ -55,9 +56,9 @@ const TaskForm = props => {
                     value={form.title.value} />
                 <div className="input-group-append">
                     <button
+                        data-test="submit-btn"
                         onClick={onSubmit}
-                        className="btn btn-outline-info shadow-none"
-                        data-test="addTaskForm-submit">
+                        className="btn btn-outline-info shadow-none">
                         Add
                     </button>
                 </div>
@@ -65,6 +66,10 @@ const TaskForm = props => {
         </form>
     )
 }
+
+TaskForm.propTypes = {
+    task: PropTypes.object,
+};
 
 
 export default TaskForm
