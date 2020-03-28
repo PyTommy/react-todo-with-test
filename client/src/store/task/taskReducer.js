@@ -39,6 +39,21 @@ export default (state = {}, action) => {
                 ...state,
                 [payload.isoDate]: tasksOfTheDate
             };
+        case actionTypes.CHANGE_COMPLETE_STATUS:
+            isoDate = payload.date.toISOString();
+
+            const index = state[isoDate].findIndex(task => task.id === payload.id);
+            if (index < 0) {
+                throw new Error('No task to update found');
+            }
+
+            const newTasksOfTheDate = [...state[isoDate]];
+            newTasksOfTheDate[index] = payload;
+
+            return {
+                ...state,
+                [isoDate]: newTasksOfTheDate
+            }
         default:
             return state;
     }

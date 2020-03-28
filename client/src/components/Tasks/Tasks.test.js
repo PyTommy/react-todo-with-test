@@ -32,8 +32,10 @@ reactRedux.useDispatch = jest.fn(fn => mockDispatch);
 // mock action creators
 const mockGetTasksByDate = jest.fn();
 const mockDeleteTask = jest.fn();
+const mockToggleCompleted = jest.fn();
 taskActions.getTasksByDate = mockGetTasksByDate;
 taskActions.deleteTask = mockDeleteTask;
+taskActions.toggleCompleted = mockToggleCompleted;
 
 /**
  * Setup
@@ -105,5 +107,15 @@ describe('functions', () => {
         onClickDelete();
 
         expect(mockDeleteTask).toHaveBeenCalledTimes(1);
+    })
+
+    test('onToggleCompleteHandler', () => {
+        setup();
+        const taskComps = wrapper.find(Task);
+        const taskComp = taskComps.at(0);
+        const onToggleCompleteHandler = taskComp.prop('toggleComplete');
+        onToggleCompleteHandler();
+
+        expect(mockToggleCompleted).toHaveBeenCalledTimes(1);
     })
 });

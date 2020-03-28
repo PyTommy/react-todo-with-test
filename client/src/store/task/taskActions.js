@@ -6,6 +6,7 @@ import TaskModel from '../../models/task';
 export const actionTypes = {
     CREATE_TASK: "CREATE_TASK",
     SET_TASKS_BY_DATE: "SET_TASKS_BY_DATE",
+    CHANGE_COMPLETE_STATUS: "CHANGE_COMPLETE_STATUS",
     DELETE_TASK: "DELETE_TASK",
 };
 
@@ -84,6 +85,32 @@ export const deleteTask = (task) => {
                 payload: {
                     id: task.id,
                     isoDate: task.date.toISOString()
+                }
+            });
+        } catch (err) {
+            const message = err.response ? err.response.data.message : err.message;
+            console.error(message);
+            dispatch(setAlert(message));
+        }
+    }
+};
+
+/**
+ * Change complete status of a task.
+ * @function toggleCompleted 
+ * @param {object} task - task to delete 
+ */
+export const toggleCompleted = (task) => {
+    return async dispatch => {
+        try {
+            // delete a task from database
+            await axios.patch(`/api/task`, { id: task.id, completed: !task.completed });
+
+            dispatch({
+                type: actionTypes.CHANGE_COMPLETE_STATUS,
+                payload: {
+                    ...task,
+                    completed: !task.completed
                 }
             });
         } catch (err) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getTasksByDate, deleteTask } from '../../store/task/taskActions';
+import { getTasksByDate, deleteTask, toggleCompleted } from '../../store/task/taskActions';
 import generateToday from '../../utils/generateToday';
 import Task from '../Task/Task';
 
@@ -18,7 +18,8 @@ const Tasks = props => {
         dispatch(getTasksByDate(isoSelectedDate));
     }, [isoSelectedDate, dispatch]);
 
-    const toggleComplete = () => {
+    const onToggleCompleteHandler = (task) => {
+        dispatch(toggleCompleted(task))
     };
 
     const onClickEdit = () => {
@@ -34,7 +35,7 @@ const Tasks = props => {
             key={task.id}
             task={task}
             isEditing={isEditing}
-            toggleComplete={toggleComplete}
+            toggleComplete={() => onToggleCompleteHandler(task)}
             onClickEdit={onClickEdit}
             onClickDelete={() => onClickDelete(task)} />
     )) : <p>No task</p>;
