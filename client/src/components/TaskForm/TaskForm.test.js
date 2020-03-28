@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import TaskForm from './TaskForm';
-import DropdownCalender from '../DropdownCalender/DropdownCalender';
+import DateChanger from '../DateChanger/DateChanger';
 import Input from '../UI/Input/Input';
 import { findByTestAttr } from '../../../test/testUtils';
 import useTaskForm from '../../hooks/useTaskForm';
@@ -43,14 +43,9 @@ describe('<TaskForm /> renders', () => {
         expect(component.length).toBe(1);
     });
 
-    test('"show-date"', () => {
-        const showDate = findByTestAttr(wrapper, "show-date");
-        expect(showDate.length).toBe(1);
-    });
-
-    test('<DropdownCalender />', () => {
-        const dropDownCalender = wrapper.find(DropdownCalender);
-        expect(dropDownCalender.length).toBe(1);
+    test('<DateChanger />', () => {
+        const dateChanger = wrapper.find(DateChanger);
+        expect(dateChanger.length).toBe(1);
     });
 
     test('<Input />', () => {
@@ -65,17 +60,6 @@ describe('<TaskForm /> renders', () => {
 });
 
 describe('onClick events on <TaskForm  />', () => {
-    test('Click show-date toggle showCalender', () => {
-        // Initially not shown
-        expect(wrapper.find(DropdownCalender).prop("show")).toBe(false);
-
-        // Click "show-date"
-        const showDate = findByTestAttr(wrapper, 'show-date');
-        showDate.simulate('click');
-
-        // DropdownCalender shown
-        expect(wrapper.find(DropdownCalender).prop("show")).toBe(true);
-    });
 
     test('Clicking submit-btn cause submission if form.validity true', () => {
         setup(true);

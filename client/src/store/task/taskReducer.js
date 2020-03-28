@@ -33,6 +33,7 @@ export default (state = {}, action) => {
                     [isoDate]: [...payload]
                 };
             }
+            return state;
         case actionTypes.DELETE_TASK:
             const tasksOfTheDate = state[payload.isoDate].filter(task => task.id !== payload.id);
             return {

@@ -1,8 +1,7 @@
 import React from 'react'
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import DropdownCalender from '../DropdownCalender/DropdownCalender';
+import DateChanger from '../DateChanger/DateChanger';
 import useTaskForm from '../../hooks/useTaskForm';
 import Input from '../UI/Input/Input';
 
@@ -10,16 +9,10 @@ import Input from '../UI/Input/Input';
 const TaskForm = props => {
     const { task = {} } = props;
 
-    const [showCalender, setShowCalender] = React.useState(false);
     const form = useTaskForm(task.date, task.title, task.completed, task.id);
-
-    const toggleShowCalender = () => {
-        setShowCalender(prevState => !prevState);
-    };
 
     const changeDate = (date) => {
         form.change('date', date, true);
-        toggleShowCalender();
     };
 
     const onSubmit = (e) => {
@@ -32,20 +25,10 @@ const TaskForm = props => {
     };
 
     return (
-        <form
-            data-test="component-TaskForm"
-            className="p-3">
-            <div
-                data-test="show-date"
-                className="btn btn-light btn-lg shadow-none mt-2 mb-2 mr-auto ml-auto"
-                onClick={toggleShowCalender}>
-                {moment(form.date.value).format('YYYY/MM/DD')}
-            </div>
-            <DropdownCalender
-                show={showCalender}
+        <form data-test="component-TaskForm" className="p-3">
+            <DateChanger
                 date={form.date.value}
-                onChange={changeDate}
-                close={toggleShowCalender} />
+                changeDate={changeDate} />
             <div className="input-group mb-3">
                 <Input
                     required
@@ -63,7 +46,7 @@ const TaskForm = props => {
                     </button>
                 </div>
             </div>
-        </form>
+        </form >
     )
 }
 
