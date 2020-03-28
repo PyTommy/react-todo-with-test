@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { getTasksByDate } from '../../store/task/taskActions';
+import { getTasksByDate, deleteTask } from '../../store/task/taskActions';
 import generateToday from '../../utils/generateToday';
 import Task from '../Task/Task';
 
@@ -24,11 +25,9 @@ const Tasks = props => {
 
     };
 
-    const onClickDelete = () => {
-
+    const onClickDelete = (task) => {
+        dispatch(deleteTask(task));
     };
-
-    console.log(tasks);
 
     const jsxTasks = tasks ? tasks.map(task => (
         <Task
@@ -36,8 +35,8 @@ const Tasks = props => {
             task={task}
             isEditing={isEditing}
             toggleComplete={toggleComplete}
-            onClickEdit={onClickDelete}
-            onClickDelete={onClickDelete} />
+            onClickEdit={onClickEdit}
+            onClickDelete={() => onClickDelete(task)} />
     )) : <p>No task</p>;
 
     return (
@@ -48,5 +47,8 @@ const Tasks = props => {
     )
 }
 
+Tasks.propTypes = {
+    selectedDate: PropTypes.instanceOf(Date),
+};
 
 export default Tasks
