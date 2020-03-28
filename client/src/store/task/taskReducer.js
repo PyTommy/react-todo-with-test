@@ -8,15 +8,16 @@ import { actionTypes } from './taskActions';
  */
 export default (state = {}, action) => {
     const { type, payload } = action;
+    let isoDate;
 
     switch (type) {
         case actionTypes.CREATE_TASK:
-            const isoDate = payload.date.toISOString();
+            isoDate = payload.date.toISOString();
 
             if (state[isoDate]) {
                 return {
                     ...state,
-                    [isoDate]: [payload, ...state[isoDate]]
+                    [isoDate]: [...state[isoDate], payload]
                 };
             } else {
                 return {
@@ -24,7 +25,36 @@ export default (state = {}, action) => {
                     [isoDate]: [payload]
                 };
             }
+        case actionTypes.SET_TASKS_BY_DATE:
+            if (payload.length > 0) {
+                isoDate = payload[0].date.toISOString();
+                return {
+                    ...state,
+                    [isoDate]: [...payload]
+                };
+            }
+            return state;
+        case actionTypes.DELETE_TASK:
+            const tasksOfTheDate = state[payload.isoDate].filter(task => task.id !== payload.id);
+            return {
+                ...state,
+                [payload.isoDate]: tasksOfTheDate
+            };
+        case actionTypes.CHANGE_COMPLETE_STATUS:
+            isoDate = payload.date.toISOString();
 
+            const index = state[isoDate].findIndex(task => task.id === payload.id);
+            if (index < 0) {
+                throw new Error('No task to update found');
+            }
+
+            const newTasksOfTheDate = [...state[isoDate]];
+            newTasksOfTheDate[index] = payload;
+
+            return {
+                ...state,
+                [isoDate]: newTasksOfTheDate
+            }
         default:
             return state;
     }

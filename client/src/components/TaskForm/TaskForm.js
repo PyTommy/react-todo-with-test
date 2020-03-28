@@ -1,7 +1,7 @@
 import React from 'react'
-import moment from 'moment';
+import PropTypes from 'prop-types';
 
-import DropdownCalender from '../DropdownCalender/DropdownCalender';
+import DateChanger from '../DateChanger/DateChanger';
 import useTaskForm from '../../hooks/useTaskForm';
 import Input from '../UI/Input/Input';
 
@@ -9,16 +9,10 @@ import Input from '../UI/Input/Input';
 const TaskForm = props => {
     const { task = {} } = props;
 
-    const [showCalender, setShowCalender] = React.useState(false);
     const form = useTaskForm(task.date, task.title, task.completed, task.id);
-
-    const toggleShowCalender = () => {
-        setShowCalender(prevState => !prevState);
-    };
 
     const changeDate = (date) => {
         form.change('date', date, true);
-        toggleShowCalender();
     };
 
     const onSubmit = (e) => {
@@ -31,20 +25,10 @@ const TaskForm = props => {
     };
 
     return (
-        <form
-            className="p-3"
-            data-test="component-addTaskForm">
-            <div
-                className="btn btn-light btn-lg shadow-none mt-2 mb-2 mr-auto ml-auto"
-                onClick={toggleShowCalender}
-                data-test='addTaskForm-date'>
-                {moment(form.date.value).format('YYYY/MM/DD')}
-            </div>
-            <DropdownCalender
-                show={showCalender}
+        <form data-test="component-TaskForm" className="p-3">
+            <DateChanger
                 date={form.date.value}
-                onChange={changeDate}
-                close={toggleShowCalender} />
+                changeDate={changeDate} />
             <div className="input-group mb-3">
                 <Input
                     required
@@ -55,16 +39,20 @@ const TaskForm = props => {
                     value={form.title.value} />
                 <div className="input-group-append">
                     <button
+                        data-test="submit-btn"
                         onClick={onSubmit}
-                        className="btn btn-outline-info shadow-none"
-                        data-test="addTaskForm-submit">
+                        className="btn btn-outline-info shadow-none">
                         Add
                     </button>
                 </div>
             </div>
-        </form>
+        </form >
     )
 }
+
+TaskForm.propTypes = {
+    task: PropTypes.object,
+};
 
 
 export default TaskForm

@@ -15,5 +15,7 @@
 
 .calender {
     position: absolute;
+    left: 50%;
     z-index: 1000;
+    transform:translateX(-50%)
 };

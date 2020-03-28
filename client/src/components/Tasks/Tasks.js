@@ -1,43 +1,53 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { getTasksByDate, deleteTask, toggleCompleted } from '../../store/task/taskActions';
 import Task from '../Task/Task';
 
 const Tasks = props => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [task, setTask] = useState({
-        id: 1,
-        title: 'この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーで',
-        completed: false,
-        date: new Date(2020, 0, 2),
-        userId: 1,
-    });
+    const { selectedDate, isEditing } = props;
+    const isoSelectedDate = selectedDate.toISOString();
 
-    const toggleComplete = () => {
-        setTask(prevState => ({
-            ...prevState,
-            completed: !prevState.completed,
-        }));
+    const tasks = useSelector(state => state.task[isoSelectedDate]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getTasksByDate(isoSelectedDate));
+    }, [isoSelectedDate, dispatch]);
+
+    const onToggleCompleteHandler = (task) => {
+        dispatch(toggleCompleted(task))
     };
 
     const onClickEdit = () => {
 
     };
 
-    const onClickDelete = () => {
-
+    const onClickDelete = (task) => {
+        dispatch(deleteTask(task));
     };
+
+    const jsxTasks = tasks ? tasks.map(task => (
+        <Task
+            key={task.id}
+            task={task}
+            isEditing={isEditing}
+            toggleComplete={() => onToggleCompleteHandler(task)}
+            onClickEdit={onClickEdit}
+            onClickDelete={() => onClickDelete(task)} />
+    )) : <p>No task</p>;
 
     return (
         <div data-test="component-tasks">
-            <Task
-                task={task}
-                isEditing={isEditing}
-                toggleComplete={toggleComplete}
-                onClickEdit={onClickDelete}
-                onClickDelete={onClickDelete} />
-            <button onClick={() => { setIsEditing(prev => !prev) }}>{isEditing ? "Finish Edit" : "Edit"}</button>
+            {jsxTasks}
         </div>
     )
 }
 
+Tasks.propTypes = {
+    selectedDate: PropTypes.instanceOf(Date),
+    isEditing: PropTypes.bool,
+};
 
 export default Tasks

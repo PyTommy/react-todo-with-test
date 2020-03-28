@@ -1,0 +1,22 @@
+.iconContainer {
+    background-color: #fafafa;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border-radius: 100rem;
+
+    &:hover {
+        background-color: #ccc;
+        cursor: pointer;
+    }
+}
+
+.DateChangeContainer {
+    width: 300px;
+    text-align: center;
+
+}

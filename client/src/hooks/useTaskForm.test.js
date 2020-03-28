@@ -5,28 +5,32 @@ import useTaskForm from './useTaskForm';
 import generateToday from '../utils/generateToday';
 import * as taskActions from '../store/task/taskActions';
 
-
+// Output of the custom hook
 let result;
+
+// Define mocked return values
 const mockCreateTaskReturnValue = "mockCreateTask called";
 const mockEditTaskReturnValue = "mockEditTask called";
+
+// Define mock functions
 const mockCreateTask = jest.fn().mockReturnValue(mockCreateTaskReturnValue);
 const mockEditTask = jest.fn().mockReturnValue(mockEditTaskReturnValue);
 const mockDispatch = jest.fn();
 
 
-// mock modules
+// Mock modules
 taskActions.createTask = mockCreateTask;
 taskActions.editTask = mockEditTask;
-// jest.mock('react-redux', () => ({
-//     useDispatch: (arg) => mockDispatch(arg)
-// }));
 reactRedux.useDispatch = () => mockDispatch;
 
 
 const setup = (initialDate, initialTitle, completed, id) => {
+    // Reset mock functions
     mockCreateTask.mockClear();
     mockEditTask.mockClear();
     mockDispatch.mockClear();
+
+    // Set result of the custom hook
     const obj = renderHook(() => useTaskForm(initialDate, initialTitle, completed, id));
     result = obj.result;
 };
@@ -85,6 +89,7 @@ describe('New task form', () => {
     test('Validity', () => {
         expect(result.current.validity).toBe(false);
 
+        // turn title's validity to true (default validity of date is true) 
         act(() => {
             result.current.change('title', "something", true);
         });
