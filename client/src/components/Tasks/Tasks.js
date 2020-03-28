@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getTasksByDate, deleteTask, toggleCompleted } from '../../store/task/taskActions';
-import generateToday from '../../utils/generateToday';
 import Task from '../Task/Task';
 
 const Tasks = props => {
-    const { selectedDate = generateToday() } = props;
+    const { selectedDate, isEditing } = props;
     const isoSelectedDate = selectedDate.toISOString();
 
-    const [isEditing, setIsEditing] = useState(false);
     const tasks = useSelector(state => state.task[isoSelectedDate]);
     const dispatch = useDispatch();
 
@@ -43,13 +41,13 @@ const Tasks = props => {
     return (
         <div data-test="component-tasks">
             {jsxTasks}
-            <button onClick={() => { setIsEditing(prev => !prev) }}>{isEditing ? "Finish Edit" : "Edit"}</button>
         </div>
     )
 }
 
 Tasks.propTypes = {
     selectedDate: PropTypes.instanceOf(Date),
+    isEditing: PropTypes.bool,
 };
 
 export default Tasks
