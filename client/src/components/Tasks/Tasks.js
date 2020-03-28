@@ -12,15 +12,6 @@ const Tasks = props => {
     const [isEditing, setIsEditing] = useState(false);
     const tasks = useSelector(state => state.task[isoSelectedDate]);
     const dispatch = useDispatch();
-    // const [task, setTask] = useState({
-    //     id: 1,
-    //     title: 'この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーで',
-    //     completed: false,
-    //     date: new Date(2020, 0, 2),
-    //     userId: 1,
-    // });
-
-
 
     useEffect(() => {
         dispatch(getTasksByDate(isoSelectedDate));

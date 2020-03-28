@@ -6,6 +6,7 @@ import TaskModel from '../../models/task';
 export const actionTypes = {
     CREATE_TASK: "CREATE_TASK",
     SET_TASKS_BY_DATE: "SET_TASKS_BY_DATE",
+    DELETE_TASK: "DELETE_TASK",
 };
 
 
@@ -38,9 +39,6 @@ export const createTask = ({ title, date }) => {
     };
 };
 
-export const editTask = ({ title, date, completed, id }) => {
-    return null;
-};
 
 
 export const getTasksByDate = (date) => {
@@ -62,4 +60,36 @@ export const getTasksByDate = (date) => {
             dispatch(setAlert(message));
         }
     };
+};
+
+
+export const editTask = ({ title, date, completed, id }) => {
+    return null;
+};
+
+/**
+ * Delete task from redux store and database.
+ * @function deleteTask
+ * @param {object} task - task to delete 
+ */
+export const deleteTask = (task) => {
+    return async dispatch => {
+        try {
+            // delete a task from database
+            await axios.delete(`/api/task?id=${task.id}`);
+
+            // delete the task from redux store
+            dispatch({
+                type: actionTypes.DELETE_TASK,
+                payload: {
+                    id: task.id,
+                    isoDate: task.date.toISOString()
+                }
+            });
+        } catch (err) {
+            const message = err.response ? err.response.data.message : err.message;
+            console.error(message);
+            dispatch(setAlert(message));
+        }
+    }
 };
